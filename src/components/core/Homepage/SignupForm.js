@@ -69,12 +69,12 @@ function SignupForm() {
         <div className='flex bg-richblack-800 p-1 gap-x-3 my-3 rounded-full max-w-max'>
             <button
             className={`${accountType === "Student" ? "bg-richblack-900 text-richblack-5 " : "bg-transparent text-richblack-200"} px-5 py-3 rounded-full transition-all duration-200`}
-            onClick={() => setAccountType("student")}>
+            onClick={() => setAccountType("Student")}>
                 Student
             </button>
             <button
             className={`${accountType === "Instructor" ? "bg-richblack-900 text-richblack-5 " : "bg-transparent text-richblack-200"} px-5 py-2 rounded-full transition-all duration-200`}
-            onClick={() => setAccountType("instructor")}>
+            onClick={() => setAccountType("Instructor")}>
                 Instructor
             </button>
         </div>

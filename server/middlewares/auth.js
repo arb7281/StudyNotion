@@ -2,6 +2,7 @@
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const User = require("../models/User");
+const bcrypt = require("bcrypt")
 
 
 //auth
@@ -56,6 +57,7 @@ exports.isStudent = async (req, res, next) => {
                 message:'This is a protected route for Students only'
             })
           }
+          next()
     }catch(error){
         return res.status(500).json({
             success:false,
@@ -108,3 +110,42 @@ exports.isAdmin = async (req, res, next) => {
         })
     }
 }
+
+
+
+//checkPassword
+exports.checkPassword = async (req, res, next) => {
+    try {
+      //get data from req body
+      const userDetails = await User.findById(req.user.id);
+      //get oldPassword, newPassword, confirmPassword
+      const  {password}  = req.body;
+      console.log("printing received password from front end", password);
+      //validation on the above data
+      //check if old password and user current password is matched
+      const isPasswordMatch = await bcrypt.compare(
+        password,
+        userDetails.password
+      );
+      
+      //check if passwords matched or not
+      if (!isPasswordMatch) {
+        //if old password doesn't match return a 401 unauthorized error
+        return res.status(401).json({
+          success: false,
+          message: "The password is incorrect",
+        });
+      }
+      console.log("Password matched successfully")
+      next()
+      
+    } catch (error) {
+      //if there's an error while updating password
+      console.error("Error occured while checking password:", error);
+      return res.status(500).json({
+        success: false,
+        message: "Error occured while checking password",
+        error: error.message,
+      });
+    }
+  }

@@ -61,6 +61,7 @@ exports.updateProfile = async (req, res) => {
 exports.deleteAccount = async (req, res) => {
     try {
         //get id
+        console.log("I am inside deleteAccount")
         const id = req.user.id;
         
         //validation
@@ -92,11 +93,17 @@ exports.deleteAccount = async (req, res) => {
 
         //deeting the user
         await User.findByIdAndDelete({_id:id});
-    }catch(error){
-        //return response
+
         return res.status(200).json({
             success:true,
-            message:"User cannot be Deleted Successfully"
+            message:"User has been deleted"
+        })
+
+    }catch(error){
+        //return response
+        return res.status(500).json({
+            success:false,
+            message:"User cannot be Deleted"
         })
 }
 }
@@ -195,3 +202,4 @@ exports.getEnrolledCourses = async (req, res) => {
         })
     }
 }
+

@@ -20,7 +20,7 @@ export const contactusEndpoint = {
 export const settingsEndpoints = {
     UPDATE_PROFILE_API:BASE_URL + "/profile/updateProfile",
     UPDATE_DISPLAY_PICTURE_API: BASE_URL + "/profile/updateDisplayPicture",
-    GET_USER_DETAILS: BASE_URL + "/profile/getUserdetails"
-  
+    GET_USER_DETAILS: BASE_URL + "/profile/getUserdetails",
+    DELETE_ACCOUNT_API: BASE_URL + "/profile/deleteProfile"
 }  
 

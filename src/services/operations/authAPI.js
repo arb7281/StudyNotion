@@ -8,10 +8,11 @@ import { useSelector } from "react-redux";
 
 // import { useDispatch } from "react-redux";
 
+// const {token} = useSelector((state) => state.auth)
 
 const {RESETPASSTOKEN_API, RESETPASSWORD_API, SIGNUP_API, SENDOTP_API, LOGIN_API, CHANGE_PASSWORD_API} = endpoints;
 
-const {UPDATE_DISPLAY_PICTURE_API, UPDATE_PROFILE_API, GET_USER_DETAILS} = settingsEndpoints;
+const {UPDATE_DISPLAY_PICTURE_API, UPDATE_PROFILE_API, GET_USER_DETAILS, DELETE_ACCOUNT_API} = settingsEndpoints;
 
 export function getPasswordResetToken(email, setEmailSent) {
     console.log("I am inside getPasswordResetToken")
@@ -161,7 +162,7 @@ export function logIn(
             
          }catch(error){
             console.log("Login error", error)
-            toast.error("Failed to log in check your password")
+            toast.error("Failed to log in check your credentials")
          }
          dispatch(setLoading(false));
          toast.dismiss(toastId)
@@ -310,3 +311,40 @@ export function changePassword(passData, token, navigate) {
            toast.dismiss(toastId)
       }
    }
+
+export function deleteAccount(token, password, navigate) {
+
+      console.log("printing password in deleteAccount", password)
+     
+      
+          return async(dispatch) => {
+            dispatch(setLoading(true));
+            const toastId = toast.loading("Loading...")
+              try{
+               
+                 const response = await apiConnector("DELETE", DELETE_ACCOUNT_API, {password}, {
+                  Authorization: `Bearer ${token}`,
+               }  ) /* backend ki reset password controller me usko body se password, confirmPassword, token ye teen chahiye  */
+                 
+                 console.log("Delete Password Response...", response);
+         
+                 if(!response.data.success){
+                     throw new Error(response.data.message)
+                 }
+                 dispatch(setToken(null));
+                 dispatch(setUser(null));
+                 localStorage.removeItem("token");
+                 localStorage.removeItem("user");
+                 toast.error("Logged Out");
+                 navigate("/")
+                 
+                 toast.success(`${response.data.message}`)
+                 
+              }catch(error){
+                 console.log("Delete Account error", error)
+                 toast.error("Password is incorrect")
+              }
+              dispatch(setLoading(false));
+              toast.dismiss(toastId)
+         }
+      }

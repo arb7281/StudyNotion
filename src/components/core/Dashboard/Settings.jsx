@@ -6,6 +6,8 @@ import CTAButton from '../Homepage/CTAButton';
 import { useDispatch } from 'react-redux';
 import { changePassword, updateProfile } from '../../../services/operations/authAPI';
 import { useNavigate } from 'react-router-dom';
+import DeleteProfile from "../../common/DeleteProfile"
+
 
 const Settings = () => {
 
@@ -173,6 +175,7 @@ const Settings = () => {
       <div>
         Delete Account
         <button>Delete Account</button>
+        <DeleteProfile/>
       </div>
     </div>
   );
