@@ -374,7 +374,7 @@ export function getEnrolledCourses(token){
    
             }catch(error){
                console.log("Course Fetch error", error)
-               toast.error(error.message)
+               toast.error("data not received")
             }
             dispatch(setWait(false));
             toast.dismiss(toastId)

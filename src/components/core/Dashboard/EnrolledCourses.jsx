@@ -1,8 +1,16 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { getEnrolledCourses } from '../../../services/operations/authAPI'
 import MyEnrolledCourse from './enrolledCourses/MyEnrolledCourse'
 
 const EnrolledCourses = () => {
+
+    const {token} = useSelector((state) => state.auth)
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(getEnrolledCourses(token))
+    },[])
 
     const enrolledCourses = useSelector((state) => state.profile)
 
