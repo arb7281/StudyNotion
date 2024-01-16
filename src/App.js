@@ -18,6 +18,7 @@ import MyProfile from "./components/core/Dashboard/MyProfile";
 import { Error } from "./pages/Error";
 import Settings from "./components/core/Dashboard/Settings";
 import { getUserDetails } from "./services/operations/authAPI";
+import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
 
 
 
@@ -53,6 +54,7 @@ function App() {
         >
         <Route path="/dashboard/my-profile" element={<MyProfile/>} />
         <Route path="/dashboard/settings" element={<Settings/>} />
+        <Route path="/dashboard/enrolled-courses" element={<EnrolledCourses/>} />
         </Route>
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
