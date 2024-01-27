@@ -4,8 +4,12 @@ import CTAButton from './CTAButton'
 import Know_your_progress from "../../../assets/Images/Know_your_progress.png"
 import Compare_with_others from "../../../assets/Images/Compare_with_others.png"
 import plan_your_lesson from "../../../assets/Images/Plan_your_lessons.png"
+import { useSelector } from 'react-redux'
 
 const LearningLanguageSection = () => {
+
+    const {user} = useSelector((state) => state.profile) 
+
   return (
     <div className='flex flex-col items-center'>
         <div className='h-[120px]'></div>
@@ -35,7 +39,7 @@ const LearningLanguageSection = () => {
             />
         </div>
         <div className='w-fit'>
-            <CTAButton active={true} linkto={"/signup"}>
+            <CTAButton active={true} linkto={user? "/dashboard/my-profile" : "/signup"}>
                 <div>
                     Learn More
                 </div>

@@ -5,14 +5,16 @@ import { useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { setToken, setSignupData } from '../../../slices/authSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { sendOtp } from '../../../services/operations/authAPI';
+import { setAccountType } from '../../../slices/authSlice';
 
 
 function SignupForm() {
 
     const dispatch = useDispatch()
-    const [accountType, setAccountType] = useState("Student");
+    // const [accountType, setAccountType] = useState("Student");
+    const {accountType} = useSelector((state) => state.auth)
 
     const [formData, setFormData] = useState({
         firstName:"",
@@ -69,12 +71,12 @@ function SignupForm() {
         <div className='flex bg-richblack-800 p-1 gap-x-3 my-3 rounded-full max-w-max'>
             <button
             className={`${accountType === "Student" ? "bg-richblack-900 text-richblack-5 " : "bg-transparent text-richblack-200"} px-5 py-3 rounded-full transition-all duration-200`}
-            onClick={() => setAccountType("Student")}>
+            onClick={() => dispatch(setAccountType("Student"))}>
                 Student
             </button>
             <button
             className={`${accountType === "Instructor" ? "bg-richblack-900 text-richblack-5 " : "bg-transparent text-richblack-200"} px-5 py-2 rounded-full transition-all duration-200`}
-            onClick={() => setAccountType("Instructor")}>
+            onClick={() => dispatch(setAccountType("Instructor"))}>
                 Instructor
             </button>
         </div>

@@ -8,9 +8,17 @@ import Codeblocks from '../components/core/Homepage/Codeblocks';
 import TimelineSection from '../components/core/Homepage/TimelineSection';
 import LearningLanguageSection from '../components/core/Homepage/LearningLanguageSection';
 import InstructorSection from '../components/core/Homepage/InstructorSection';
+import { useDispatch, useSelector } from 'react-redux';
+import { ACCOUNT_TYPE } from '../utils/constants';
+
 console.log(Banner);
 
 const Home = () => {
+
+  const {user} = useSelector((state) => state.profile)
+
+  const dispatch = useDispatch()
+
   return (
     <div  className='z-9'>
       {/* This is section 1 */}
@@ -18,11 +26,14 @@ const Home = () => {
         {/* become an instructor button */}
         
           <div className=" mt-16 p-1 rounded-full text-richblack-200 mx-auto bg-richblack-800 w-fit" >  
-          <Link to={"/signup"}>
-              <div className=" flex items-center gap-1 px-3 py-2 font-medium transition-all duration-200  rounded-full">Become an instructor
+          {user?.accountType === ACCOUNT_TYPE.STUDENT ? (<div></div>) : 
+            <Link to={"/signup"}>
+              <div className=" flex items-center gap-1 px-3 py-2 font-medium transition-all duration-200  rounded-full" >Become an instructor
               <FaArrowRight />
               </div>  
           </Link>
+          }
+          
           </div>        
         
 
@@ -39,8 +50,8 @@ const Home = () => {
           instructors.
         </p>
         <div className="flex mx-auto gap-7 mt-7">
-          <CTAButton active={true} linkto={"/signup"} >Learn More</CTAButton>
-          <CTAButton active={false} linkto={"/login"}>Book a demo</CTAButton>
+          <CTAButton active={true} linkto={user? "/dashboard/my-profile" : "/signup"} >Learn More</CTAButton>
+          <CTAButton active={false} linkto={user? "/dashboard/my-profile" : "/signup"}>Book a demo</CTAButton>
         </div>
 
         <div className="mx-24 px-20 my-12 shadow1">
@@ -65,10 +76,10 @@ const Home = () => {
                          about sharing their knowledge with you.`}
             ctaBtn1={{
               text: "try it yourself",
-              linkto: "/signup",
+              linkto: user? "/dashboard/my-profile" : "/signup",
               active: true,
             }}
-            ctaBtn2={{ text: "Learn more", linkto: "/login", active: false }}
+            ctaBtn2={{ text: "Learn more", linkto: user? "/dashboard/my-profile" : "/signup", active: false }}
             codeblock={`function HighlightSomeText(highlight) {
                         if (highlight) {
                          return 'This text is highlighted!';}                     
@@ -96,10 +107,10 @@ const Home = () => {
                          about sharing their knowledge with you.`}
             ctaBtn1={{
               text: "try it yourself",
-              linkto: "/signup",
+              linkto: user? "/dashboard/my-profile" : "/signup",
               active: true,
             }}
-            ctaBtn2={{ text: "Learn more", linkto: "/login", active: false }}
+            ctaBtn2={{ text: "Learn more", linkto: user? "/dashboard/my-profile" : "/signup", active: false }}
             codeblock={`function HighlightSomeText(highlight) {
                         if (highlight) {
                          return 'This text is highlighted!';}                     
@@ -122,13 +133,13 @@ const Home = () => {
               <div className='w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-5 mx-auto'>
               <div className='h-[150px] bg-brown-900'>Hello delete my css only, keep my height only</div>
               <div className='flex flex-row gap-7 text-white'>
-                  <CTAButton active={true} linkto={"/signup"}>
+                  <CTAButton active={true} linkto={user? "/dashboard/my-profile" : "/signup"}>
                         <div className='flex items-center gap-3'>
                             Explore Full Catalog
                             <FaArrowRight/>
                         </div>
                   </CTAButton>
-                  <CTAButton active={false} linkto={"/signup"}>
+                  <CTAButton active={false} linkto={user? "/dashboard/my-profile" : "/signup"}>
                         <div>
                             Learn More
                         </div>
@@ -150,7 +161,7 @@ const Home = () => {
                 <div>
                   The modern StudyNotion is dicattes its own terms. Today, to be a competitive requires more than professional skills.  
                 </div>
-                <CTAButton active={true} linkto={"/signup"}>
+                <CTAButton active={true} linkto={user? "/dashboard/my-profile" : "/signup"}>
                         <div>
                           Learn More
                         </div>

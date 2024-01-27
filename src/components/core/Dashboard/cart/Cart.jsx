@@ -1,7 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import RenderCartCourses from './RenderCartCourses'
+import RenderTotalAmount from './RenderTotalAmount'
 
-const index = () => {
+const Cart = () => {
 
     const {total, totalitems} = useSelector((state) => state.cart)
   return (
@@ -20,4 +22,4 @@ const index = () => {
   )
 }
 
-export default index
+export default Cart

@@ -384,32 +384,3 @@ export function getEnrolledCourses(token){
       
       }
       
-export function getAverageRating(courseId){
-         // console.log("printing user object inside getUserDetails finction", user);
-      
-         return async(dispatch) => {
-            const toastId = toast.loading("Loading...")
-            // const user = useSelector((state) => state.profile)
-            dispatch(setWait(true));
-            try{
-               const response = await apiConnector("GET", GET_COURSE_AVERAGE_RATING, courseId) /* bckend ki signup wali controller call hogi  */
-               
-               console.log("User Response.data from GET_COURSE_AVERAGE_RATING...", response.data);
-       
-               if(!response.data.success){
-                   throw new Error(response.data.message)
-               }
-
-               dispatch(setEnrolledCourses({...response.data.data}))
-
-               toast.success(`${response.data.message}`)
-   
-            }catch(error){
-               console.log("Course Fetch Course Rating", error)
-               toast.error("data not received for course rating")
-            }
-            dispatch(setWait(false));
-            toast.dismiss(toastId)
-       }
-      
-      }       

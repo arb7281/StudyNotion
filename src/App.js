@@ -19,6 +19,8 @@ import { Error } from "./pages/Error";
 import Settings from "./components/core/Dashboard/Settings";
 import { getUserDetails } from "./services/operations/authAPI";
 import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
+import Cart from "./components/core/Dashboard/cart/Cart";
+import { ACCOUNT_TYPE } from "./utils/constants";
 
 
 
@@ -27,12 +29,14 @@ function App() {
 
   const {token} = useSelector((state) => state.auth)
 
-  // const {user} = useSelector((state) => state.profile)
+  const {user} = useSelector((state) => state.profile)
+
+  console.log("printing user from app.js", user)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-
+    //for every refresh I should have updated data
     if (token) {
       dispatch(getUserDetails(token));
     }
@@ -52,9 +56,19 @@ function App() {
             </PrivateRoute>
           }
         >
-        <Route path="/dashboard/my-profile" element={<MyProfile/>} />
-        <Route path="/dashboard/settings" element={<Settings/>} />
-        <Route path="/dashboard/enrolled-courses" element={<EnrolledCourses/>} />
+        {/* if you are inside the nested route you don't need to use prefix of the parrent route */}
+        <Route path="my-profile" element={<MyProfile/>} />
+        <Route path="settings" element={<Settings/>} />
+
+        { user?.accountType === ACCOUNT_TYPE.STUDENT &&
+          (<>
+            <Route path="enrolled-courses" element={<EnrolledCourses/>} />
+            <Route path="cart" element={<Cart/>} />
+          </>            
+          )
+        }
+        
+        
         </Route>
         <Route path="/signup" element={<Signup />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
