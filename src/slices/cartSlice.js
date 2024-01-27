@@ -19,9 +19,9 @@ const cartSlice = createSlice ({
         //add to cart
         //removeFromCart
         //resetCart
-        addToCart: (cart, action) => {
-            const course = action.payload
-            const index = state.cart.findIndex((index) => item._id === course._id)// find index of item if it present in cart
+        addToCart: (state, action) => {
+            const course = action.payload//send course as attribute inside addToCart function when you dispatch it
+            const index = state.cart.findIndex((item) => item._id === course._id)// find index of item if it present in cart
 
             if(index >= 0){//if the index is present which means course is already present into the cart
                 toast.error("course already in cart")
