@@ -78,12 +78,19 @@ exports.getAverageRating = async (req, res) => {
         const result = await RatingAndReview.aggregate([
             {
                 $match:{
+                    //The function uses the aggregate method provided by the MongoDB driver to perform 
+                    //aggregation on the RatingAndReview collection. It first matches documents where the course field matches the provided courseId
                     course: new mongoose.Types.ObjectId(courseId),
                 },
             },
             {
+                //then it groups matching documents and calculate its rating with the help of $avg aggregation operator on the rating field
+                //this filed will be stored in result array as an object with keys _id and averageRating there will be only one object in result array though.
                 $group:{
+                    //here _id is null because we are calculating rating by combining rating of alll the documenments (effectively ignoring any specific values in the _id field of the document) 
+                    //containing SAME course id hence no need to give id for this
                     _id:null,
+                    //calculating average rating using $avg operator
                     averageRating: {$avg: "$rating"},
                 }
             }
@@ -93,6 +100,7 @@ exports.getAverageRating = async (req, res) => {
         if(result.length > 0) {
             return res.status(200).json({
                 success: true,
+                //since there is only one object in result array we are returning the same with its average rating
                 averageRating: result[0].averageRating,
             })
         }

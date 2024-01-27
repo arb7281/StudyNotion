@@ -25,3 +25,6 @@ export const settingsEndpoints = {
     GET_ENROLLED_COURSES: BASE_URL + "/profile/getEnrolledCourses"
 }  
 
+export const courseEndpoints = {
+    GET_COURSE_AVERAGE_RATING: BASE_URL + "/course/getAverageRating"
+}

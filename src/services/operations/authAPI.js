@@ -1,7 +1,7 @@
 import { toast } from "react-hot-toast"
 import { setLoading, setToken } from "../../slices/authSlice"
 import {setEnrolledCourses, setWait} from "../../slices/profileSlice"
-import { endpoints, settingsEndpoints } from "../api";
+import { courseEndpoints, endpoints, settingsEndpoints } from "../api";
 import { apiConnector } from "../apiconnector";
 import { setUser } from "../../slices/profileSlice";
 import { useSelector } from "react-redux";
@@ -14,6 +14,8 @@ import { useSelector } from "react-redux";
 const {RESETPASSTOKEN_API, RESETPASSWORD_API, SIGNUP_API, SENDOTP_API, LOGIN_API, CHANGE_PASSWORD_API} = endpoints;
 
 const {UPDATE_DISPLAY_PICTURE_API, UPDATE_PROFILE_API, GET_USER_DETAILS, DELETE_ACCOUNT_API, GET_ENROLLED_COURSES} = settingsEndpoints;
+
+const {GET_COURSE_AVERAGE_RATING} = courseEndpoints
 
 export function getPasswordResetToken(email, setEmailSent) {
     console.log("I am inside getPasswordResetToken")
@@ -380,4 +382,34 @@ export function getEnrolledCourses(token){
             toast.dismiss(toastId)
        }
       
-      }      
+      }
+      
+export function getAverageRating(courseId){
+         // console.log("printing user object inside getUserDetails finction", user);
+      
+         return async(dispatch) => {
+            const toastId = toast.loading("Loading...")
+            // const user = useSelector((state) => state.profile)
+            dispatch(setWait(true));
+            try{
+               const response = await apiConnector("GET", GET_COURSE_AVERAGE_RATING, courseId) /* bckend ki signup wali controller call hogi  */
+               
+               console.log("User Response.data from GET_COURSE_AVERAGE_RATING...", response.data);
+       
+               if(!response.data.success){
+                   throw new Error(response.data.message)
+               }
+
+               dispatch(setEnrolledCourses({...response.data.data}))
+
+               toast.success(`${response.data.message}`)
+   
+            }catch(error){
+               console.log("Course Fetch Course Rating", error)
+               toast.error("data not received for course rating")
+            }
+            dispatch(setWait(false));
+            toast.dismiss(toastId)
+       }
+      
+      }       

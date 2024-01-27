@@ -17,7 +17,7 @@ const MyCourse = ({course}) => {
                 <p>{course?.courseName}</p>
                 <p>{course?.category?.name}</p>
                 <div>
-                    <span>4.8 change dynamically</span>
+                    <span>4.8 change dynamically will be average rating</span>
                     <ReactStars
                         count={5}
                         size={20}
@@ -27,7 +27,7 @@ const MyCourse = ({course}) => {
                         fullIcon={<GiNinjaStar/>}
                     />
 
-                    <span>{course?.ratingAndReviews?.length} Ratings</span>
+                    <span>{course?.ratingAndReviews?.length} Ratings here is total reviews given by all users</span>
                 </div>
             </div>
         </div>
