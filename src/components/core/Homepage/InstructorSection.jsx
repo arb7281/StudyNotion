@@ -3,8 +3,15 @@ import HighlightText from './HighlightText'
 import CTAButton from './CTAButton'
 import { FaArrowRight } from 'react-icons/fa'
 import Instructor from "../../../assets/Images/Instructor.png"
+import { setAccountType } from '../../../slices/authSlice'
+import { useDispatch } from 'react-redux'
+
 
 const InstructorSection = () => {
+
+  const dispatch = useDispatch()
+
+
   return (
     <div>
       <div className='flex gap-20 items-center'>
@@ -24,7 +31,7 @@ const InstructorSection = () => {
               We provide the tools and skills to teach what you love.</p>
         <div className='w-fit mt-10'>
         <CTAButton active={true} linkto={"/signup"}>
-          <div className='flex flex-row gap-2 items-center'>
+          <div className='flex flex-row gap-2 items-center' onClick={() => dispatch(setAccountType("Instructor"))}>
               Start Teaching Today 
               <FaArrowRight />
           </div>

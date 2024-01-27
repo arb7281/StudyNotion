@@ -10,6 +10,7 @@ import LearningLanguageSection from '../components/core/Homepage/LearningLanguag
 import InstructorSection from '../components/core/Homepage/InstructorSection';
 import { useDispatch, useSelector } from 'react-redux';
 import { ACCOUNT_TYPE } from '../utils/constants';
+import { setAccountType } from '../slices/authSlice';
 
 console.log(Banner);
 
@@ -18,6 +19,10 @@ const Home = () => {
   const {user} = useSelector((state) => state.profile)
 
   const dispatch = useDispatch()
+
+  const setAccount = () => {
+    dispatch(setAccountType(ACCOUNT_TYPE.INSTRUCTOR))
+  }
 
   return (
     <div  className='z-9'>
@@ -28,7 +33,7 @@ const Home = () => {
           <div className=" mt-16 p-1 rounded-full text-richblack-200 mx-auto bg-richblack-800 w-fit" >  
           {user?.accountType === ACCOUNT_TYPE.STUDENT ? (<div></div>) : 
             <Link to={"/signup"}>
-              <div className=" flex items-center gap-1 px-3 py-2 font-medium transition-all duration-200  rounded-full" >Become an instructor
+              <div className=" flex items-center gap-1 px-3 py-2 font-medium transition-all duration-200  rounded-full" onClick={() => dispatch(setAccountType("Instructor"))}>Become an instructor
               <FaArrowRight />
               </div>  
           </Link>
@@ -50,8 +55,8 @@ const Home = () => {
           instructors.
         </p>
         <div className="flex mx-auto gap-7 mt-7">
-          <CTAButton active={true} linkto={user? "/dashboard/my-profile" : "/signup"} >Learn More</CTAButton>
-          <CTAButton active={false} linkto={user? "/dashboard/my-profile" : "/signup"}>Book a demo</CTAButton>
+          <CTAButton active={true}  linkto={user? "/dashboard/my-profile" : "/signup"} handleEvent={() => dispatch(setAccountType("Student"))}>Learn More</CTAButton>
+          <CTAButton active={false} linkto={user? "/dashboard/my-profile" : "/signup"} handleEvent={() => dispatch(setAccountType("Student"))}>Book a demo</CTAButton>
         </div>
 
         <div className="mx-24 px-20 my-12 shadow1">
@@ -90,7 +95,9 @@ const Home = () => {
                           return 'This range is highlighted!';}
                         return 'Nothing highlighted';
                         }`}
-            codeColor={"text-yellow-25"}          
+            codeColor={"text-yellow-25"}  
+
+            handleEvent={() => dispatch(setAccountType("Student"))}       
           />
 
             <Codeblocks
@@ -121,7 +128,8 @@ const Home = () => {
                           return 'This range is highlighted!';}
                         return 'Nothing highlighted';
                         }`}
-            codeColor={"text-yellow-25"}          
+            codeColor={"text-yellow-25"}   
+            handleEvent={() => dispatch(setAccountType("Student"))}          
           />
         </div>
       </div>
@@ -133,13 +141,13 @@ const Home = () => {
               <div className='w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-5 mx-auto'>
               <div className='h-[150px] bg-brown-900'>Hello delete my css only, keep my height only</div>
               <div className='flex flex-row gap-7 text-white'>
-                  <CTAButton active={true} linkto={user? "/dashboard/my-profile" : "/signup"}>
+                  <CTAButton active={true} linkto={user? "/dashboard/my-profile" : "/signup"} handleEvent={() => dispatch(setAccountType("Student"))}>
                         <div className='flex items-center gap-3'>
                             Explore Full Catalog
                             <FaArrowRight/>
                         </div>
                   </CTAButton>
-                  <CTAButton active={false} linkto={user? "/dashboard/my-profile" : "/signup"}>
+                  <CTAButton active={false} linkto={user? "/dashboard/my-profile" : "/signup"} handleEvent={() => dispatch(setAccountType("Student"))}>
                         <div>
                             Learn More
                         </div>
@@ -161,7 +169,7 @@ const Home = () => {
                 <div>
                   The modern StudyNotion is dicattes its own terms. Today, to be a competitive requires more than professional skills.  
                 </div>
-                <CTAButton active={true} linkto={user? "/dashboard/my-profile" : "/signup"}>
+                <CTAButton active={true} linkto={user? "/dashboard/my-profile" : "/signup"} handleEvent={() => dispatch(setAccountType("Student"))}>
                         <div>
                           Learn More
                         </div>
@@ -171,7 +179,7 @@ const Home = () => {
 
               <TimelineSection/>
 
-              <LearningLanguageSection/>
+              <LearningLanguageSection handleEvent={() => dispatch(setAccountType("Student"))}/>
           </div>
       </div>
 

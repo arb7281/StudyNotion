@@ -6,7 +6,7 @@ import Compare_with_others from "../../../assets/Images/Compare_with_others.png"
 import plan_your_lesson from "../../../assets/Images/Plan_your_lessons.png"
 import { useSelector } from 'react-redux'
 
-const LearningLanguageSection = () => {
+const LearningLanguageSection = ({handleEvent}) => {
 
     const {user} = useSelector((state) => state.profile) 
 
@@ -39,7 +39,7 @@ const LearningLanguageSection = () => {
             />
         </div>
         <div className='w-fit'>
-            <CTAButton active={true} linkto={user? "/dashboard/my-profile" : "/signup"}>
+            <CTAButton active={true} linkto={user? "/dashboard/my-profile" : "/signup"} handleEvent={handleEvent}>
                 <div>
                     Learn More
                 </div>

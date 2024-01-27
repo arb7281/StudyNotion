@@ -3,7 +3,7 @@ import CTAButton from './CTAButton'
 import { FaArrowRight } from 'react-icons/fa'
 import { TypeAnimation } from 'react-type-animation'
 
-const Codeblocks = ({codeColor, codeblock, ctaBtn2, ctaBtn1, subheading, heading, position}) => {
+const Codeblocks = ({codeColor, codeblock, ctaBtn2, ctaBtn1, subheading, heading, position, handleEvent}) => {
   return (
     <div className={`flex ${position} justify-between items-center  bg-richblack-600 mx-24 gap-10`}>
     {/* text */}
@@ -11,8 +11,8 @@ const Codeblocks = ({codeColor, codeblock, ctaBtn2, ctaBtn1, subheading, heading
     <div>{heading}</div>
     <div>{subheading}</div>
     <div className='flex gap-4'>
-        <CTAButton active={ctaBtn1.active} linkto={ctaBtn1.linkto}><div className='flex gap-2 items-center'>{ctaBtn1.text}<FaArrowRight/></div></CTAButton>
-        <CTAButton active={ctaBtn2.active} linkto={ctaBtn2.linkto}>{ctaBtn2.text}</CTAButton>
+        <CTAButton active={ctaBtn1.active} linkto={ctaBtn1.linkto} handleEvent={handleEvent}><div className='flex gap-2 items-center'>{ctaBtn1.text}<FaArrowRight/></div></CTAButton>
+        <CTAButton active={ctaBtn2.active} linkto={ctaBtn2.linkto} handleEvent={handleEvent}>{ctaBtn2.text}</CTAButton>
     </div>
     </div>
     {/* code */}
