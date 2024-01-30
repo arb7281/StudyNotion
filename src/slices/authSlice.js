@@ -4,7 +4,7 @@ const initialState = {
     signupData:null,
     loading:false,
     token: localStorage.getItem("token") ? JSON.parse(localStorage.getItem("token")) : null, /* iski madad se apn login logout handle kr skte he badme isko apn reducers yane actions ki madad se change krenge*/
-    accountType: 'Student'
+    accountType: 'Instructor'
 }
 
 export const authSlice = createSlice ({

@@ -116,7 +116,7 @@ if(existingUser){
 
 //find most recent OTP in db for latest otp updated
 const recentOtp = await OTP.find({email}).sort({createdAt: -1}).limit(1);
-console.log("recent otp is:", recentOtp);
+recentOtp ? console.log("recent otp is:", recentOtp) : console.log("recent otp is not received")
 
 
 //validate OTP

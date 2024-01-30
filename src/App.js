@@ -67,6 +67,14 @@ function App() {
           </>            
           )
         }
+
+        { user?.accountType === ACCOUNT_TYPE.INSTRUCTOR &&
+          (<>
+            <Route path="my-courses" element={<EnrolledCourses/>} />
+            <Route path="cart" element={<Cart/>} />
+          </>            
+          )
+        }
         
         
         </Route>
