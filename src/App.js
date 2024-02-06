@@ -21,6 +21,7 @@ import { getUserDetails } from "./services/operations/authAPI";
 import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
 import Cart from "./components/core/Dashboard/cart/Cart";
 import { ACCOUNT_TYPE } from "./utils/constants";
+import AddCourse from "./components/core/Dashboard/instructorDashboard/AddCourse";
 
 
 
@@ -70,8 +71,8 @@ function App() {
 
         { user?.accountType === ACCOUNT_TYPE.INSTRUCTOR &&
           (<>
-            <Route path="my-courses" element={<EnrolledCourses/>} />
-            <Route path="cart" element={<Cart/>} />
+            <Route path="add-course" element={<AddCourse/>} />
+            {/* <Route path="cart" element={<Cart/>} /> */}
           </>            
           )
         }
