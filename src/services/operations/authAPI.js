@@ -353,7 +353,7 @@ export function deleteAccount(token, password, navigate) {
       }
 
 export function getEnrolledCourses(token){
-         // console.log("printing user object inside getUserDetails finction", user);
+         
       
          return async(dispatch) => {
             const toastId = toast.loading("Loading...")
