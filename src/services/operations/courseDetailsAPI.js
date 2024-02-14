@@ -1,9 +1,11 @@
 import { apiConnector } from "../apiconnector";
-import { categories } from "../api";
+import { categories, courseEndpoints } from "../api";
 import toast from "react-hot-toast";
 
 
-const {CATEGORIES_API, CREATE_COURSE_API} = categories
+const {CATEGORIES_API } = categories
+
+const {CREATE_COURSE_API} = courseEndpoints
 
 export const fetchCourseCategories = async () => {
 
@@ -28,11 +30,11 @@ export const fetchCourseCategories = async () => {
 export const createCourse = async (formData,token) => {
     let result = null
     const toastId = toast.loading("Loading...")
-
+    console.log("printing create course api", CREATE_COURSE_API)
     try{
         const response = await apiConnector("POST", CREATE_COURSE_API, formData, {
             "Content-Type": "multipart/form-data",
-            Authorization: `Bearer ${token}`})
+            Authorization: `Bearer ${token}`}, null)
 
         if(!response.data.success){
             throw new Error("Could Not fetch course categories")

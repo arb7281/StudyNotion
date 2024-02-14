@@ -73,15 +73,19 @@ exports.isStudent = async (req, res, next) => {
 exports.isInstructor = async (req, res, next) => {
     try{
         //check if user instructor or not
+        console.log("I am inside auth middleware")
           if(req.user.accountType !== "Instructor")
           {
+            console.log("there is some error while verifying the instructor")
             return res.status(401).json({
                 success: false,
                 message:'This is a protected route for Instructors only'
             })
           }
+          console.log("cleared the instructor authentication")
           next();
     }catch(error){
+        
         return res.status(500).json({
             success:false,
             message:'User role cannot be verified, please try again'

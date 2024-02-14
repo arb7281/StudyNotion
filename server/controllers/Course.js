@@ -13,20 +13,24 @@ exports.createCourse = async (req, res) => {
                 whatYouWillLearn, 
                 price,
                 category,
-                tag,
+                // tag,
                 status,
                 instructions} = req.body;
 
+                console.log("printing category", category)
+                console.log("printing instructions", instructions)
+
         //get thumbnail
-        const thumbnail = req.files.thumbnailImage;
+        const thumbnail = req.files?.thumbnailImage;
 
         //validation
         if( !courseName || 
             !courseDescription || 
             !whatYouWillLearn || 
             !price || 
-            !category || 
-            !thumbnail) {
+            !category 
+            /* || 
+            !thumbnail */) {
             return res.status(400).json({
                 success:false,
                 message:"All fields are required"
@@ -50,18 +54,22 @@ exports.createCourse = async (req, res) => {
             })
         }
 
-        //check given category is valid or not
-        // const categoryDetails = await Category.findById(tag);
-        // if(!categoryDetails){
-        //     return res.status(400).json({
-        //         success:false,
-        //         message:"Category details not found",
-        //     })
-        // }
+        // check given category is valid or not
+        const categoryDetails = await Category.findById(category);
+        if(!categoryDetails){
+            return res.status(400).json({
+                success:false,
+                message:"Category details not found",
+            })
+        }
 
         //Upload Image to Cloudinary
-        const thumbnailImage = await uploadimageToCloudinary(thumbnail, 
-                                                            process.env.FOLDER_NAME);
+        if(thumbnail){
+            const thumbnailImage = await uploadimageToCloudinary(thumbnail, 
+                process.env.FOLDER_NAME);
+        }
+        
+        // const instructionsArray = instructions.split(","); /* make sure you make necessary changes here if you find babbar's code is behaving different */
 
         //create an entry for new Course in DB
         const newCourse = await Course.create({
@@ -69,11 +77,12 @@ exports.createCourse = async (req, res) => {
             courseDescription,
             instructor:instructorDetails._id,
             whatYouWillLearn:whatYouWillLearn,
+            category: categoryDetails._id,
             price,
-            tag,
-            thumbnail:thumbnailImage.secure_url,
+            // tag,
+            // thumbnail:thumbnailImage.secure_url,
             status: status,
-            instructions: instructions,
+            instructions,
         });
 
         //add the new course to the user schema of instructor
@@ -116,131 +125,133 @@ exports.createCourse = async (req, res) => {
 }
 }
 
-exports.editCourse = async (req, res) => {
-    try{
+// exports.editCourse = async (req, res) => {
+//     try{
 
-        // fetch data
-        const { courseName, 
-                courseDescription, 
-                whatYouWillLearn, 
-                price,
-                category,
-                tag,
-                status,
-                instructions,
-                courseId} = req.body;
+//         // fetch data
+//         // const { courseName, 
+//         //         courseDescription, 
+//         //         whatYouWillLearn, 
+//         //         price,
+//         //         category,
+//         //         tag,
+//         //         status,
+//         //         instructions,
+//         //         courseId} = req.body;
 
-        //get thumbnail
-        const thumbnail = req.files?.thumbnailImage;
+//         const {courseId, ...updateFields} = req.body     
 
-        //validation
-        if(!courseId){
-            return res.status(400).json({
-                success:false,
-                message:"Category details not found",
-            })
-        }
+//         //get thumbnail
+//         const thumbnail = req.files?.thumbnailImage;
+
+//         //validation
+//         if(!courseId){
+//             return res.status(400).json({
+//                 success:false,
+//                 message:"Category details not found",
+//             })
+//         }
        
 
-        if (!status || status === undefined){
-            status = "Draft";
-        }
-        //find instructor
-        const userId = req.user.id;
-        //instructor ki details find out kro aur make sure krna 
-        //userId se jab find kr rhae ho tab accountType Instructor hona chahiye
-        const instructorDetails = await User.findById(userId,{accountType: "Instructor"});
-        if (!instructorDetails) {
-            return res.status(400).json({
-                success: false,
-                message: "Instructor details not found",
-            });
-        }
-        console.log("Instructor Details: ", instructorDetails);
+//         if (!updateFields.status || updateFields.status === undefined){
+//             updateFields.status = "Draft";
+//         }
+//         //find instructor
+//         const userId = req.user.id;
+//         //instructor ki details find out kro aur make sure krna 
+//         //userId se jab find kr rhae ho tab accountType Instructor hona chahiye
+//         const instructorDetails = await User.findById(userId,{accountType: "Instructor"});
+//         if (!instructorDetails) {
+//             return res.status(400).json({
+//                 success: false,
+//                 message: "Instructor details not found",
+//             });
+//         }
+//         console.log("Instructor Details: ", instructorDetails);
 
-        if(!instructorDetails){
-            return res.status(400).json({
-                success:false,
-                message:"Instructor details not found",
-            })
-        }
+//         if(!instructorDetails){
+//             return res.status(400).json({
+//                 success:false,
+//                 message:"Instructor details not found",
+//             })
+//         }
 
-        //check given category is valid or not
-        // if (tag !== undefined) {
-        //   const categoryDetails = await Category.findById(tag);
-        //   if (!categoryDetails) {
-        //     return res.status(400).json({
-        //       success: false,
-        //       message: "Category details not found",
-        //     });
-        //   }
-        // }
+//         //check given category is valid or not
+//         // if (tag !== undefined) {
+//         //   const categoryDetails = await Category.findById(tag);
+//         //   if (!categoryDetails) {
+//         //     return res.status(400).json({
+//         //       success: false,
+//         //       message: "Category details not found",
+//         //     });
+//         //   }
+//         // }
         
 
-        //Upload Image to Cloudinary
-        if(thumbnail !== undefined){
-            const thumbnailImage = await uploadimageToCloudinary(thumbnail, 
-                process.env.FOLDER_NAME);
-        }
+//         //Upload Image to Cloudinary
+//         if(thumbnail !== undefined){
+//             const thumbnailImage = await uploadimageToCloudinary(thumbnail, 
+//                 process.env.FOLDER_NAME);
+//         }
         
 
-        //create an entry for new Course in DB
-        const newCourse = await Course.findByIdAndUpdate(
-            courseId,
-            {courseName,
-            courseDescription,
-            instructor:instructorDetails._id,
-            whatYouWillLearn:whatYouWillLearn,
-            price,
-            tag,
-            thumbnail:thumbnailImage.secure_url,
-            status: status,
-            instructions: instructions,},
-            {new:true}
-        );
+//         //create an entry for new Course in DB
+//         const newCourse = await Course.findByIdAndUpdate(
+//             courseId,
+//             {courseName,
+//             courseDescription,
+//             instructor:instructorDetails._id,
+//             whatYouWillLearn:whatYouWillLearn,
+//             price,
+//             tag,
+//             thumbnail:thumbnailImage.secure_url,
+//             status: status,
+//             instructions: instructions,},
+//             {new:true}
+//         );
 
-        //add the new course to the user schema of instructor
-        await User.findByIdAndUpdate(
-            {_id:instructorDetails._id},
-            {
-                $push:{
-                    courses:newCourse._id
-                }
-            },
-            {new:true}
-            );
+//         //add the new course to the user schema of instructor
+//         await User.findByIdAndUpdate(
+//             {_id:instructorDetails._id},
+//             {
+//                 $push:{
+//                     courses:newCourse._id
+//                 }
+//             },
+//             {new:true}
+//             );
 
-            //add the new course to the categories
-            if(category){
-                await Category.findByIdAndUpdate(
-                    {_id: category},
-                    {
-                        $push: {
-                            course: newCourse._id,
-                        }
-                    },
-                    {new: true}
-                )
-            }
+//             //add the new course to the categories
+//             if(category){
+//                 await Category.findByIdAndUpdate(
+//                     {_id: category},
+//                     {
+//                         $push: {
+//                             course: newCourse._id,
+//                         }
+//                     },
+//                     {new: true}
+//                 )
+//             }
             
-            //todo:HW
+//             //todo:HW
 
-            //return response
-            return res.status(200).json({
-                success:true,
-                message:"Course Crteated Successfully",
-                data:newCourse
-            })
+//             //return response
+//             return res.status(200).json({
+//                 success:true,
+//                 message:"Course Crteated Successfully",
+//                 data:newCourse
+//             })
 
-}catch(error){
-    console.error(error);
-    return res.status(500).json({
-        success:false,
-        message:"Failed to create course",
-        error: error.message
-    })
-}
-}
+// }catch(error){
+//     console.error(error);
+//     return res.status(500).json({
+//         success:false,
+//         message:"Failed to create course",
+//         error: error.message
+//     })
+// }
+// }
 
 //getAllCourses
 exports.getAllCourses = async (req, res) => {

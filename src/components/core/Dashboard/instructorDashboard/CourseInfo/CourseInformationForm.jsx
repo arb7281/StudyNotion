@@ -9,6 +9,7 @@ import { COURSE_STATUS } from '../../../../../utils/constants'
 import { createCourse } from '../../../../../services/operations/courseDetailsAPI'
 import { setCourse } from '../../../../../slices/courseSlice'
 import toast from 'react-hot-toast'
+import RequirementField from './RequirementField'
 
 const CourseInformationForm = () => {
 
@@ -32,12 +33,28 @@ const CourseInformationForm = () => {
         const getCategories = async () => {
             const categories = await fetchCourseCategories();
             if(categories.length > 0){
-                setCourseCategories(getCategories)
+                // console.log("printing categories", categories)
+                setCourseCategories(categories)
             }
+
+            setLoading(false)
         }
-        setLoading(false)
+
+        if(editCourse) {
+            setValue("courseTitle", course.courseName);
+            setValue("courseShortDesc", course.courseDescription)
+            setValue("coursePrice", course.price)
+            setValue("courseTags", course.tag)
+            setValue("courseBenefits", course.whatYouWillLearn)
+            setValue("courseCategory", course.courseCategory)
+            setValue("courseRequirements", course.instructions)
+            setValue("courseImage", course.thumbnail)
+
+        }
+
+        getCategories()
         
-    })
+    },[])
 
     const isFormUpdated = () => {
         const currentValues = getValues();
@@ -57,64 +74,76 @@ const CourseInformationForm = () => {
     }
 
     // here formdata will be passed through handleSubmit handler provided by useForm which we have stored using register object provided by useForm
-    const onSubmit = async (data) => {
+    const onSubmitForm = async (data) => {
 
         //if you are editing existing course
         if(editCourse){
             //checking if form is updated or not
-            if(isFormUpdated()){
-                //if course details are updated get those values using getValues
-                const currentValues = getValues()
+            if (isFormUpdated()) {
+              //if course details are updated get those values using getValues
+              const currentValues = getValues();
 
-                const formData = new FormData()
+              const formData = new FormData();
 
-                formData.append("courseId", course._id)//for updating coiurse we will need courseID
-                //check if title is updated or not
-                if(currentValues.courseTitle !== course.courseName){
-                    formData.append("courseName", data.courseTitle)
-                }
+              formData.append("courseId", course._id); //for updating coiurse we will need courseID
+              //check if title is updated or not
+              if (currentValues.courseTitle !== course.courseName) {
+                formData.append("courseName", data.courseTitle);
+              }
 
-                if(currentValues.courseShortDesc !== course.courseDescription){
-                    formData.append("courseDescription", data.courseShortDesc)
-                }
+              if (currentValues.courseShortDesc !== course.courseDescription) {
+                formData.append("courseDescription", data.courseShortDesc);
+              }
 
-                if(currentValues.coursePrice !== course.price){
-                    formData.append("price", data.coursePrice)
-                }
+              if (currentValues.coursePrice !== course.price) {
+                formData.append("price", data.coursePrice);
+              }
 
-                if(currentValues.coursebenefits !== course.whatYouWillLearn){
-                    formData.append("whatYouWillLearn", data.courseBenefits)
-                }
+              if (currentValues.coursebenefits !== course.whatYouWillLearn) {
+                formData.append("whatYouWillLearn", data.courseBenefits);
+              }
 
-                if(currentValues.courseCategory._id !== course.category._id){
-                    formData.append("category", data.courseCategory)
-                }
+              if (currentValues.courseCategory._id !== course.category._id) {
+                formData.append("category", data.courseCategory);
+              }
 
-                if(currentValues.courseTags.toString() !== course.tag.toString()){
-                    formData.append("tag", data.courseTags)
-                }
+              // if(currentValues.courseTags.toString() !== course.tag.toString()){
+              //     formData.append("tag", data.courseTags)
+              // }
 
-                //will need lot of efforts
-                if (currentValues.courseImage[0] !== course.thumbnail) {
-                    formData.append("thumbnailImage", data.courseImage[0]); // Assuming courseImage is an array containing File objects
-                }
+              //will need lot of efforts
+              // if (currentValues.courseImage[0] !== course.thumbnail) {
+              //     formData.append("thumbnailImage", data.courseImage[0]); // Assuming courseImage is an array containing File objects
+              // }
 
-                if(currentValues.courseRequirements.toString() !== course.instructions.toString()){
-                    formData.append("instructions", JSON.stringyfy(data.courseRequirements))
-                }
-            }
+              if (
+                currentValues.courseRequirements.toString() !==
+                course.instructions.toString()
+              ) {
+                formData.append(
+                  "instructions",
+                  JSON.stringyfy(data.courseRequirements)
+                );
+              }
 
-            setLoading(true)
+              setLoading(true);
 
-            const result = await editCourse(formData, token)
+              const result = await editCourse(formData, token);
 
-            setLoading(false)
-            if(result){
+              
+              if (result) {
                 setStep(2);
-                dispatch(setCourse(result))
-            }else{
-                toast.error("No Changes Made So Far")
+                dispatch(setCourse(result));
+              } else {
+                toast.error("No Changes Made So Far");
+              }
+              setLoading(false);
+              
+            } else {
+              toast.error("No Changes made so far");
             }
+
+            
 
             //don't want to move forward after this
             return
@@ -128,17 +157,19 @@ const CourseInformationForm = () => {
         formData.append("price", data.coursePrice)
         formData.append("whatYouWillLearn", data.courseBenefits)
         formData.append("category", data.courseCategory)//this is holding id of category
-        formData.append("instructions", JSON.stringyfy(data.courseRequirements))
+        // formData.append("instructions", data.courseRequirements)
+        formData.append("instructions", JSON.stringify(data.courseRequirements)) /* unlock this and comment above line if you find babbar have written different code */
         formData.append("status", COURSE_STATUS.DRAFT)
-        formData.append("thumbnailImage", data.thumbnail)
+        // formData.append("thumbnailImage", data.thumbnail)
 
         setLoading(true)
 
         const result = await createCourse(formData, token)
 
         if(result){
-            setStep(2)
+            
             dispatch(setCourse(result))
+            setStep(2)
         }
 
         setLoading(false)
@@ -150,7 +181,6 @@ const CourseInformationForm = () => {
 
   return (
     <form
-    onSubmit={handleSubmit(onSubmit)} 
     className='rounded-md border-richblack-700 bg-richblack-800 p-6 space-y-8'>
         <div>
             <label htmlFor='courseTitle'>Course title<sup>*</sup></label>
@@ -226,15 +256,15 @@ const CourseInformationForm = () => {
         {/* thumbnail upload component */}
 
         <div>
-            <label htmlFor='coursebenefits'>Benefits of the course<sup>*</sup></label>
+            <label htmlFor='courseBenefits'>Benefits of the course<sup>*</sup></label>
             <textarea
-                id='coursebenefits'
+                id='courseBenefits'
                 placeholder='Enter The Benefits of The Course'
                 {...register("courseBenefits", {required: true})}
                 className='min-h-[130px] w-full'
             />
             {
-                errors.coursebenefits && (
+                errors.courseBenefits && (
                     <span>
                         Benefits of the course are required**
                     </span>
@@ -243,13 +273,14 @@ const CourseInformationForm = () => {
         </div>
         
         {/* requirement and instructions  */}
-        {/* <RequirementField
+        <RequirementField
             name="courseRequirements"
             label="Requirements/Instructions"
             register={register}
-            setValues={setValue}
-            getValues={getvalues}
-        /> */}
+            setValue={setValue}
+            getValues={getValues}
+            errors={errors}
+        />
 
         <div>
             {
@@ -262,7 +293,7 @@ const CourseInformationForm = () => {
                     </button>
                 )
             }
-            <CTAButton>{!editCourse ? "Next" : "Save Changes"}</CTAButton>
+            <CTAButton active={true} type="submit" handleEvent={handleSubmit(onSubmitForm)}>{!editCourse ? "Next" : "Save Changes"}</CTAButton>
         </div>
 
     </form>
