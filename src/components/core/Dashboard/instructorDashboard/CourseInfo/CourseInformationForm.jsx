@@ -10,6 +10,7 @@ import { createCourse } from '../../../../../services/operations/courseDetailsAP
 import { setCourse } from '../../../../../slices/courseSlice'
 import toast from 'react-hot-toast'
 import RequirementField from './RequirementField'
+import TagsField from './TagsField'
 
 const CourseInformationForm = () => {
 
@@ -252,6 +253,7 @@ const CourseInformationForm = () => {
         </div>
 
         {/* tags component */}
+        <TagsField/>
 
         {/* thumbnail upload component */}
 
