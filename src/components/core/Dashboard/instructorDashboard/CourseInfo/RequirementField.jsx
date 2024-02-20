@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
+
 const RequirementField = ({name, label, register, setValue, getValues, errors}) => {
 
     const [inputText, setInputText] = useState()
@@ -63,7 +64,7 @@ const RequirementField = ({name, label, register, setValue, getValues, errors}) 
             <span>
                 {label} is required**
             </span>
-        )}
+      )}
       
     </div>
   );

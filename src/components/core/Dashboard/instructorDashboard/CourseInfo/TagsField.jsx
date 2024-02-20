@@ -1,10 +1,20 @@
 import React from 'react'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-const TagsField = () => {
+const TagsField = ({name, label, register, setValue, getValues, errors}) => {
 
   const [inputValue, setInputValue] = useState('');
   const [tags, setTags] = useState([]);
+
+
+  useEffect(() => {
+    register(name, {required: true})
+    
+  },[register, name])
+
+  useEffect(() => {
+      setValue(name, tags)
+  },[tags])
 
   const handleInputChange = (e) => {
     // console.log("I am inside handleInputChange")
@@ -24,9 +34,9 @@ const TagsField = () => {
     }
   }
 
-  const removeTag = (tagRemove) => [
+  const removeTag = (tagRemove) => {
     setTags(tags.filter(tag => tag !== tagRemove))
-  ]
+  }
 
   return (
     <div>
@@ -40,13 +50,20 @@ const TagsField = () => {
           ))
         }
       </div>
+      <label htmlFor={name}>{label}<sup>*</sup></label>
       <input
         type='text'
+        id={name}
         value={inputValue}
         onChange={handleInputChange}
         onKeyDown={handleInputkeyDown}
         placeholder='Type tags here...'
       />
+      {errors[name] && tags.length === 0 && (
+            <span>
+                {label} is required**
+            </span>
+        )}
     </div>
   )
 }

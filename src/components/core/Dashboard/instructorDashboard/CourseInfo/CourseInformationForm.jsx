@@ -62,7 +62,7 @@ const CourseInformationForm = () => {
         if(currentValues.courseTitle !== course.courseName ||
             currentValues.courseShortDesc !== course.courseDescription ||
             currentValues.coursePrice !== course.price ||
-            // currentValues.courseTags.toString() !== course.tag.toString() ||
+            currentValues.courseTags.toString() !== course.tag.toString() ||
             currentValues.courseBenefits !== course.whatYouWillLearn || 
             currentValues.courseCategory._id !== course.category._id ||
             // currentValues.courseImage !== course.thumbnail ||
@@ -108,9 +108,9 @@ const CourseInformationForm = () => {
                 formData.append("category", data.courseCategory);
               }
 
-              // if(currentValues.courseTags.toString() !== course.tag.toString()){
-              //     formData.append("tag", data.courseTags)
-              // }
+              if(currentValues.courseTags.toString() !== course.tag.toString()){
+                  formData.append("tag", data.courseTags)
+              }
 
               //will need lot of efforts
               // if (currentValues.courseImage[0] !== course.thumbnail) {
@@ -159,6 +159,7 @@ const CourseInformationForm = () => {
         formData.append("whatYouWillLearn", data.courseBenefits)
         formData.append("category", data.courseCategory)//this is holding id of category
         // formData.append("instructions", data.courseRequirements)
+        formData.append("tag", JSON.stringify(data.courseTags))
         formData.append("instructions", JSON.stringify(data.courseRequirements)) /* unlock this and comment above line if you find babbar have written different code */
         formData.append("status", COURSE_STATUS.DRAFT)
         // formData.append("thumbnailImage", data.thumbnail)
@@ -253,7 +254,15 @@ const CourseInformationForm = () => {
         </div>
 
         {/* tags component */}
-        <TagsField/>
+        here we are sending register method from useform to child component with the help of them we are updating our 
+        <TagsField
+            name="courseTags"
+            label="Tags"
+            register={register}
+            setValue={setValue}
+            getValues={getValues}
+            errors={errors}
+        />
 
         {/* thumbnail upload component */}
 

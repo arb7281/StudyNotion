@@ -13,7 +13,7 @@ exports.createCourse = async (req, res) => {
                 whatYouWillLearn, 
                 price,
                 category,
-                // tag,
+                tag,
                 status,
                 instructions} = req.body;
 
@@ -79,7 +79,7 @@ exports.createCourse = async (req, res) => {
             whatYouWillLearn:whatYouWillLearn,
             category: categoryDetails._id,
             price,
-            // tag,
+            tag,
             // thumbnail:thumbnailImage.secure_url,
             status: status,
             instructions,
