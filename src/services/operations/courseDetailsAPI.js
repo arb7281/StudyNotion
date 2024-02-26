@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 const {CATEGORIES_API } = categories
 
-const {CREATE_COURSE_API} = courseEndpoints
+const {CREATE_COURSE_API, CREATE_SECTION_API, UPDATE_SECTION_API} = courseEndpoints
 
 export const fetchCourseCategories = async () => {
 
@@ -69,6 +69,56 @@ export const editCourse = async (formData,token) => {
 
     }catch(error){
         console.log("CATEGORIES_API error", error)
+        toast.error(error.message)
+    }
+
+    toast.dismiss(toastId)
+    
+    return result
+}
+
+export const createSection = async (data,token) => {
+    let result = null
+    const toastId = toast.loading("Loading...")
+    // console.log("printing create course api", CREATE_COURSE_API)
+    try{
+        const response = await apiConnector("POST", CREATE_SECTION_API, data, {
+            
+            Authorization: `Bearer ${token}`}, null)
+
+        if(!response.data.success){
+            throw new Error("Could Not fetch course categories")
+        }
+        toast.success("Course Section Added Successfully")
+        result = response?.data?.updatedCourseDetails
+
+    }catch(error){
+        console.log("CREATE_SECTION_API error", error)
+        toast.error(error.message)
+    }
+
+    toast.dismiss(toastId)
+    
+    return result
+}
+
+export const updateSection = async (data,token) => {
+    let result = null
+    const toastId = toast.loading("Loading...")
+    // console.log("printing create course api", CREATE_COURSE_API)
+    try{
+        const response = await apiConnector("POST", UPDATE_SECTION_API, data, {
+            
+            Authorization: `Bearer ${token}`}, null)
+
+        if(!response.data.success){
+            throw new Error("Could Not fetch course categories")
+        }
+        toast.success("Course Section Added Successfully")
+        result = response?.data?.updatedCourseDetails
+
+    }catch(error){
+        console.log("CREATE_SECTION_API error", error)
         toast.error(error.message)
     }
 

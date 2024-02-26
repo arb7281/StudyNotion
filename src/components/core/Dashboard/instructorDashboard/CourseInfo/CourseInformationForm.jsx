@@ -133,7 +133,7 @@ const CourseInformationForm = () => {
 
               
               if (result) {
-                setStep(2);
+                dispatch(setStep(2));
                 dispatch(setCourse(result));
               } else {
                 toast.error("No Changes Made So Far");
@@ -171,7 +171,7 @@ const CourseInformationForm = () => {
         if(result){
             
             dispatch(setCourse(result))
-            setStep(2)
+            dispatch(setStep(2))
         }
 
         setLoading(false)

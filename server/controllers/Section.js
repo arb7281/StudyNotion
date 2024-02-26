@@ -25,7 +25,7 @@ exports.createSection = async (req, res) => {
                                                         }
                                                     },
                                                     {new:true},
-                                                ).populate("courseContent").exec();;
+                                                ).populate("courseContent").exec();
         
         return res.status(200).json({
             success:true,
@@ -47,9 +47,9 @@ exports.updateSection = async (req, res) => {
     try {
 
         //data input
-        const {sectionName, sectionId} = req.body;
+        const {sectionName, sectionId, courseId} = req.body;
         //data validation
-        if(!sectionName || !sectionId) {
+        if(!sectionName || !sectionId || !courseId) {
             return res.status(400).json({
                 success:false,
                 message:"Missing Properties"
@@ -59,10 +59,21 @@ exports.updateSection = async (req, res) => {
         //update the data
         const section = await Section.findByIdAndUpdate(sectionId, {sectionName}, {new:true});
 
+        const updatedCourseDetails = await Course.findByIdAndUpdate(
+            courseId,
+            {
+                $push:{
+                    courseContent:section._id,
+                }
+            },
+            {new: true},    
+        ).populate("courseContent").exec()
+
         //return
         return res.status(200).json({
             success:true,
-            message:"Section Updated Successfully"
+            message:"Section Updated Successfully",
+            updatedCourseDetails
         });
     }catch(error){
         return res.status(500).json({
