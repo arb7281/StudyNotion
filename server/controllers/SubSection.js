@@ -1,5 +1,6 @@
 const SubSection = require("../models/SubSection");
 const Section = require("../models/Section");
+const Course = require("../models/Course")
 const {uploadImageToCloudinary} = require("../utils/imageUploader");
 require("dotenv").config();
 
@@ -83,23 +84,28 @@ exports.updateSubSection = async (req, res) => {
 //deleting a subSection
 exports.deleteSubsection = async (req, res) => {
     try {
-        const {subSectionId, sectionId} = req.body;
+        const {subSectionId, sectionId, courseId} = req.body;
+        //first remove the subSection id from that particular section
         await Section.findByIdAndUpdate({_id: sectionId},
             {
                 $pull: {
                     subSection: subSectionId,
                 }
             })
-
+            //secondly remove subsection itself
             const subSection = await SubSection.findByIdAndDelete({_id: subSection})
 
             if(!subSection) {
                 return res.status(404).json({success: false, message: "Subsection not found"})
             }
 
+            const updatedCourseDetails = await Course.findById(courseId).populate("courseContent").exec();
+            
+
             return res.json({
                 success: true,
-                message: "SubSection deleted successfully"
+                message: "SubSection deleted successfully",
+                updatedCourseDetails
             })
     }catch(error) {
         console.log(error)

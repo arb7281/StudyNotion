@@ -90,9 +90,16 @@ const CourseBuilderForm = () => {
   }
 
 //will be handled after crewating nested view component
-  // const handleChangeEditSectionname = () => {
+  const handleChangeEditSectionName = (sectionId, sectionName) => {
+    if(editSectionName === sectionId){
+      cancelEdit();
+      return;
+    }
 
-  // }
+    setEditSectionName(sectionId)
+    setValue("sectionName", sectionName)
+
+  }
 
 
   return (

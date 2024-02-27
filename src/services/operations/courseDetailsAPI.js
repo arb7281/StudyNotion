@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 
 const {CATEGORIES_API } = categories
 
-const {CREATE_COURSE_API, CREATE_SECTION_API, UPDATE_SECTION_API} = courseEndpoints
+const {CREATE_COURSE_API, CREATE_SECTION_API, UPDATE_SECTION_API, DELETE_SECTION_API, DELETE_SUB_SECTION_API} = courseEndpoints
 
 export const fetchCourseCategories = async () => {
 
@@ -112,13 +112,64 @@ export const updateSection = async (data,token) => {
             Authorization: `Bearer ${token}`}, null)
 
         if(!response.data.success){
-            throw new Error("Could Not fetch course categories")
+            throw new Error("Could Not fetch course details")
         }
-        toast.success("Course Section Added Successfully")
+        toast.success("Course Section updated Successfully")
         result = response?.data?.updatedCourseDetails
 
     }catch(error){
-        console.log("CREATE_SECTION_API error", error)
+        console.log("UPDATE_SECTION_API error", error)
+        toast.error(error.message)
+    }
+
+    toast.dismiss(toastId)
+    
+    return result
+}
+
+export const deleteSection = async (data,token) => {
+    let result = null
+    const toastId = toast.loading("Loading...")
+    // console.log("printing create course api", CREATE_COURSE_API)
+    try{
+        const response = await apiConnector("POST", DELETE_SECTION_API, data, {
+            
+            Authorization: `Bearer ${token}`}, null)
+
+        if(!response.data.success){
+            throw new Error("Could Not fetch course details")
+        }
+        toast.success("Course Section deleted Successfully")
+        result = response?.data?.updatedCourseDetails
+
+    }catch(error){
+        console.log("DELETE_SECTION_API error", error)
+        toast.error(error.message)
+    }
+
+    toast.dismiss(toastId)
+    
+    return result
+}
+
+
+export const deleteSubSection = async (data,token) => {
+    let result = null
+    const toastId = toast.loading("Loading...")
+    // console.log("printing create course api", CREATE_COURSE_API)
+    try{
+        const response = await apiConnector("POST", DELETE_SUB_SECTION_API, data, {
+            
+            Authorization: `Bearer ${token}`}, null)
+
+        if(!response.data.success){
+            throw new Error("Could Not fetch course details")
+        }
+        toast.success("Course SubSection deleted Successfully")
+        result = response?.data?.updatedCourseDetails
+
+    }catch(error){
+        console.log("DELETE_SUB_SECTION_API error", error)
         toast.error(error.message)
     }
 

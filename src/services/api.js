@@ -29,5 +29,7 @@ export const courseEndpoints = {
     GET_COURSE_AVERAGE_RATING: BASE_URL + "/course/getAverageRating",
     CREATE_COURSE_API: BASE_URL + "/course/createCourse",
     CREATE_SECTION_API: BASE_URL + "/course/addSection",
-    UPDATE_SECTION_API: BASE_URL + "/course/updateSection"
+    UPDATE_SECTION_API: BASE_URL + "/course/updateSection",
+    DELETE_SECTION_API: BASE_URL + "/course/deleteSection",
+    DELETE_SUB_SECTION_API: BASE_URL + "/course/deleteSubSection"
 }

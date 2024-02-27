@@ -89,14 +89,32 @@ exports.updateSection = async (req, res) => {
 exports.deleteSection = async (req, res) => {
     try {
         //get ID - assuming that we are sending ID in params
-        const {sectionId} = req.params
+        const {sectionId, courseId} = req.params
         //use findByIdandDelete
-        await Section.findByIdAndDelete(sectionId);
+        const deletedSection = await Section.findByIdAndDelete(sectionId);
+
+        if (!deletedSection) {
+            return res.status(404).json({
+                success: false,
+                message: "Section not found"
+            });
+        }
+
+        const updatedCourseDetails = await Course.findByIdAndUpdate(
+            courseId,
+            {
+                $pull: {
+                    courseContent: sectionId // Remove the deleted section from courseContent array
+                }
+            },
+            { new: true }
+        ).populate("courseContent").exec();
 
         //return response
         return res.status(200).json({
             success:true,
-            message:"Section Deleted Successfully"
+            message:"Section Deleted Successfully",
+            updatedCourseDetails
         })
     }catch(error){
         return res.status(500).json({
