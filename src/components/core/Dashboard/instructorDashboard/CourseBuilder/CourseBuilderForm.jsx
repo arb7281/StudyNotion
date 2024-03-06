@@ -8,6 +8,7 @@ import { setCourse, setEditCourse } from '../../../../../slices/courseSlice'
 import { setStep } from '../../../../../slices/courseSlice'
 import {BiRightArrow} from "react-icons/bi"
 import toast from 'react-hot-toast'
+import NestedView from "../CourseBuilder/NestedView"
 
 
 const CourseBuilderForm = () => {
@@ -71,6 +72,7 @@ const CourseBuilderForm = () => {
   const goBack = () => {
     dispatch(setStep(1))
     dispatch(setEditCourse(true))
+    console.log("printing course after clicking back", course)
   }
 
   const goToNext = () => {
@@ -143,11 +145,11 @@ const CourseBuilderForm = () => {
         </div>
       </form>
 
-      {/* {
+      {
         course?.courseContent?.length > 0 && (
-          <NestedView handleChangeEditSectionname={handleChangeEditSectionname}/>
+          <NestedView handleChangeEditSectionName={handleChangeEditSectionName}/>
         )
-      } */}
+      }
 
       <div className='flex justify-end gap-x-3 mt-10'>
       <CTAButton 

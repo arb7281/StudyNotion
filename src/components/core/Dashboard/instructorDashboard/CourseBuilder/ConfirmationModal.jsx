@@ -1,23 +1,13 @@
 import React, { useState } from 'react'
 import Modal from 'react-modal';
-import { useDispatch } from 'react-redux';
-import { setToken } from '../../slices/authSlice';
-import { setUser } from '../../slices/profileSlice';
-import { Link, useNavigate } from 'react-router-dom';
 import {VscSignOut} from "react-icons/vsc"
-import toast from 'react-hot-toast';
-import { setCourse } from '../../slices/courseSlice';
+
 
 Modal.setAppElement('#root');
 
+const ConfirmationModal = ({modalData}, setConfirmationModal) => {
 
-
-const LogOut = () => {
-
-    const [modalIsOpen, setModalIsOpen] = useState(false)
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-
+        
     const modalStyle = {
         content: {
           width: '300px',
@@ -41,7 +31,8 @@ const LogOut = () => {
           alignItems: 'center',
           justifyContent: 'center',
         },
-      };
+      };  
+
 
       const buttonStyle = {
         color: 'black',
@@ -57,54 +48,39 @@ const LogOut = () => {
         
       };
 
-       function modalClose(event){
+    function modalClose(event){
         console.log("I am inside modalClose function")
         event.stopPropagation()
-        setModalIsOpen(false)
-        console.log("printing modalIsOpen", modalIsOpen)
+        setConfirmationModal(false)
+        // console.log("printing modalIsOpen", modalIsOpen)
       } 
 
   return (
-    <div onClick={()=> setModalIsOpen(true)} className='cursor-pointer'>
-      
-        <div className="flex items-center gap-1">
-          <VscSignOut className="text-lg" />
-          <span>Logout</span>
-        </div>
-        <Modal
-          isOpen={modalIsOpen}
+    <Modal
+          isOpen={modalData}
           onRequestClose={(event) => modalClose(event)}
-          contentLabel="Are you sure you want to log out?"
+          contentLabel={modalData.text1}
           style={modalStyle}
           className={`z-10`}
         >
-          <h2>Are you sure you want to log out?</h2>
+          <h2>{modalData.text2}</h2>
           {/* You can add additional content or styling for your modal */}
           <div className="flex gap-2 items-center">
-            <button style={buttonStyle} onClick={ (event) => modalClose(event)}>
-              No
+            <button style={buttonStyle} onClick={ () => modalData.btn2Handler()}>
+              {modalData.btn2Text}
             </button>
             <button
               style={buttonStyle}
               onClick={() => {
-                dispatch(setToken(null));
-                dispatch(setUser(null));
-                dispatch(setCourse(null))
-                localStorage.removeItem("token");
-                localStorage.removeItem("user");
-                setModalIsOpen(false);
-                toast.error("Logged Out");
-                navigate("/");
+                modalData.btn1Handler()
               }}
               className="flex gap-1"
             >
-              <VscSignOut className="text-lg" /> Logout
+              <VscSignOut className="text-lg" />{modalData.btn1Text}
             </button>
           </div>
         </Modal>
-     
-    </div>
-  );
+  )
 }
 
-export default LogOut
+export default ConfirmationModal

@@ -41,15 +41,16 @@ category: {
         ref:"Category"
     },
 tag: {
-    type:[String],
+    type: String,
+    
 },
 studentsEnrolled:{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
     },
  instructions: {
-    type: [String]
- }  
+    type: String,
+}
 })
 
 module.exports = mongoose.model("Course", couseSchema)

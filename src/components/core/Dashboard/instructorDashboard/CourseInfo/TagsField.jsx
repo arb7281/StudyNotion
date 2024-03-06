@@ -1,14 +1,21 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const TagsField = ({name, label, register, setValue, getValues, errors}) => {
 
   const [inputValue, setInputValue] = useState('');
   const [tags, setTags] = useState([]);
 
+  const { editCourse, course } = useSelector((state) => state.course)
 
   useEffect(() => {
-    register(name, {required: true})
+    if (editCourse) {
+      // console.log(course)
+      const tagsArray = JSON.parse(course.tag)
+      setTags(tagsArray)
+    }
+    register(name, {required: true, validate: (value) => value.length > 0 })
     
   },[register, name])
 

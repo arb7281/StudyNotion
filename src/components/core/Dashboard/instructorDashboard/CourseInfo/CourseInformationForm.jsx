@@ -11,6 +11,7 @@ import { setCourse } from '../../../../../slices/courseSlice'
 import toast from 'react-hot-toast'
 import RequirementField from './RequirementField'
 import TagsField from './TagsField'
+import { editCourseDetails } from '../../../../../services/operations/courseDetailsAPI'
 
 const CourseInformationForm = () => {
 
@@ -42,12 +43,14 @@ const CourseInformationForm = () => {
         }
 
         if(editCourse) {
+            console.log("edit course is enabled and printing course", course)
             setValue("courseTitle", course.courseName);
             setValue("courseShortDesc", course.courseDescription)
             setValue("coursePrice", course.price)
             setValue("courseTags", course.tag)
             setValue("courseBenefits", course.whatYouWillLearn)
-            setValue("courseCategory", course.courseCategory)
+            console.log("printing value of courseCategory", course.category)
+            // setValue("courseCategory", course.category)
             setValue("courseRequirements", course.instructions)
             setValue("courseImage", course.thumbnail)
 
@@ -55,16 +58,25 @@ const CourseInformationForm = () => {
 
         getCategories()
         
-    },[])
+    },[editCourse, setValue])
+
+    useEffect(() => {
+        if (editCourse) {
+            console.log("printing course", course)
+          setValue("courseCategory", course.category); // Assuming 'courseCategory' is the field name
+        }
+      }, [editCourse, setValue])
 
     const isFormUpdated = () => {
+        console.log("inside formUpdate")
         const currentValues = getValues();
+        console.log(`printing values of categories current category ${currentValues.courseCategory} & received from database ${course.category}`)
         if(currentValues.courseTitle !== course.courseName ||
             currentValues.courseShortDesc !== course.courseDescription ||
             currentValues.coursePrice !== course.price ||
             currentValues.courseTags.toString() !== course.tag.toString() ||
             currentValues.courseBenefits !== course.whatYouWillLearn || 
-            currentValues.courseCategory._id !== course.category._id ||
+            currentValues.courseCategory !== course.category ||
             // currentValues.courseImage !== course.thumbnail ||
             currentValues.courseRequirements.toString() !== course.instructions.toString()
             ) {
@@ -81,6 +93,7 @@ const CourseInformationForm = () => {
         if(editCourse){
             //checking if form is updated or not
             if (isFormUpdated()) {
+                console.log("inside if case fter checking formUpdate")
               //if course details are updated get those values using getValues
               const currentValues = getValues();
 
@@ -100,16 +113,17 @@ const CourseInformationForm = () => {
                 formData.append("price", data.coursePrice);
               }
 
-              if (currentValues.coursebenefits !== course.whatYouWillLearn) {
+              if (currentValues.courseBenefits !== course.whatYouWillLearn) {
                 formData.append("whatYouWillLearn", data.courseBenefits);
               }
 
-              if (currentValues.courseCategory._id !== course.category._id) {
+              if (currentValues.courseCategory !== course.category) {
+                console.log("category is changed", currentValues.courseCategory)
                 formData.append("category", data.courseCategory);
               }
 
               if(currentValues.courseTags.toString() !== course.tag.toString()){
-                  formData.append("tag", data.courseTags)
+                  formData.append("tag", JSON.stringify(data.courseTags))
               }
 
               //will need lot of efforts
@@ -123,25 +137,26 @@ const CourseInformationForm = () => {
               ) {
                 formData.append(
                   "instructions",
-                  JSON.stringyfy(data.courseRequirements)
+                  JSON.stringify(data.courseRequirements)
                 );
               }
 
               setLoading(true);
 
-              const result = await editCourse(formData, token);
+              const result = await editCourseDetails(formData, token);
 
               
               if (result) {
+                console.log("printing received result", result)
                 dispatch(setStep(2));
                 dispatch(setCourse(result));
               } else {
-                toast.error("No Changes Made So Far");
+                toast.error("No Changes Made So Far1");
               }
               setLoading(false);
               
             } else {
-              toast.error("No Changes made so far");
+              toast.error("No Changes made so far2");
             }
 
             
@@ -254,7 +269,7 @@ const CourseInformationForm = () => {
         </div>
 
         {/* tags component */}
-        here we are sending register method from useform to child component with the help of them we are updating our 
+        {/* here we are sending register method from useform to child component with the help of them we are updating our  */}
         <TagsField
             name="courseTags"
             label="Tags"

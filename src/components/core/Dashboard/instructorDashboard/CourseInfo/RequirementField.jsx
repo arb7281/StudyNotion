@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
 
 
 const RequirementField = ({name, label, register, setValue, getValues, errors}) => {
@@ -6,7 +7,16 @@ const RequirementField = ({name, label, register, setValue, getValues, errors}) 
     const [inputText, setInputText] = useState()
     const [requirement, setRequirement] = useState([])
 
+    const { editCourse, course } = useSelector((state) => state.course)
+
     useEffect(() => {
+
+      if (editCourse) {
+        // console.log(course)
+        const insArray = JSON.parse(course?.instructions)
+      // setTags(tagsArray)
+        setRequirement(insArray)
+      }
         register(name, {required: true})
         
     },[register, name])

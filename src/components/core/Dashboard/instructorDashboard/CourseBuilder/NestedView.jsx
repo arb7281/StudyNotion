@@ -5,12 +5,14 @@ import { setCourse } from '../../../../../slices/courseSlice'
 import { BiDownArrow } from 'react-icons/bi'
 import {MdEdit} from "react-icons/md"
 import {RiDeleteBin6Line} from "react-icons/ri"
-import {BiDownArrow} from "react-icons/bi"
+import {RxDropdownMenu} from "react-icons/rx"
 import {AiOutlinePlus} from "react-icons/ai"
+import ConfirmationModal from './ConfirmationModal'
 
 const NestedView = ({handleChangeEditSectionName}) => {
 
     const {course} = useSelector((state) => state.course)
+    console.log("printing updated course inside nesteview", course)
     const [confirmationModal, setConfirmationModal] = useState(null)
     const {token} = useSelector((state) => state.auth)
     const dispatch = useDispatch()
@@ -54,6 +56,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
             {
                 course?.courseContent?.map((section) => (
                     <details key={section._id} open>
+                    {/* this summary will hold the the section name only */}
                         <summary className='flex items-center justify-between gap-x-3 border-b-2'>
                             <div className='flex items-center gap-x-3'>
                                 <RxDropdownMenu/>
@@ -71,7 +74,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
                                 onClick ={
                                     () => {
                                     setConfirmationModal({
-                                        text1: "Delete this Section",
+                                        text1: "Delete this Section?",
                                         text2: "All the lectures in this section will be deleted",
                                         btn1Text: "Delete",
                                         btn2Text: "Cancel",
@@ -89,6 +92,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
                             </div>
                         </summary>
 
+                                {/* this div is holding subsection content it will be revealed only if the summary is clicked */}
                         <div>
                             {
                                 section?.subSection?.map((data) => (
@@ -145,7 +149,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
 
 
 {/* implement this logic using modal module */}
-        {
+        {/* {
             addSubSection ? (
                 <SubSectionModal
                     modalData={addSubSection}
@@ -167,11 +171,11 @@ const NestedView = ({handleChangeEditSectionName}) => {
                     edit={true}
                 />
             ):(<div></div>)
-        }
+        } */}
         {
             confirmationModal ?
             (
-                <confirmationModal modalData={confirmationModal}/>
+                <ConfirmationModal modalData={confirmationModal} setConfirmationModal = {setConfirmationModal}/>
             )
             :(<div></div>)
         }

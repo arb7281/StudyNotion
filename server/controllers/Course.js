@@ -79,10 +79,10 @@ exports.createCourse = async (req, res) => {
             whatYouWillLearn:whatYouWillLearn,
             category: categoryDetails._id,
             price,
-            tag,
+            tag:tag,
             // thumbnail:thumbnailImage.secure_url,
             status: status,
-            instructions,
+            instructions: instructions,
         });
 
         //add the new course to the user schema of instructor
@@ -294,7 +294,7 @@ exports.getCoursedetails = async (req, res) => {
                     path:"additionalDetails",
                 }
             }).populate("category")
-            .populate("ratingAndReviews")
+            // .populate("ratingAndReviews")
             .populate({
                 path:"courseContent",
                 populate:{
@@ -306,7 +306,7 @@ exports.getCoursedetails = async (req, res) => {
             if(!courseDetails) {
                 return res.status(400).json({
                     success: false,
-                    message: "Course Details fetched successfully",
+                    message: "Course Details not fetched successfully",
                     data: courseDetails
                 })
             }
@@ -326,3 +326,41 @@ exports.getCoursedetails = async (req, res) => {
         })
     }
 }
+
+exports.updateCourse = async (req, res) => {
+    try {
+         // Assuming course id is passed in the URL
+        const {courseId, ...updates} = req.body; // Fields to be updated sent from the client
+
+        // Validate if any updates are provided
+        if (Object.keys(updates).length === 0) {
+            return res.status(400).json({
+                success: false,
+                message: "No updates provided"
+            });
+        }
+
+        // Update the course in the database
+        const updatedCourseDetails = await Course.findByIdAndUpdate(courseId, updates, { new: true }).populate("courseContent").exec();
+
+        if (!updatedCourseDetails) {
+            return res.status(404).json({
+                success: false,
+                message: "Course not found"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Course updated successfully",
+            updatedCourseDetails
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            success: false,
+            message: "Failed to update course",
+            error: error.message
+        });
+    }
+};

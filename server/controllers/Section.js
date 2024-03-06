@@ -59,15 +59,7 @@ exports.updateSection = async (req, res) => {
         //update the data
         const section = await Section.findByIdAndUpdate(sectionId, {sectionName}, {new:true});
 
-        const updatedCourseDetails = await Course.findByIdAndUpdate(
-            courseId,
-            {
-                $push:{
-                    courseContent:section._id,
-                }
-            },
-            {new: true},    
-        ).populate("courseContent").exec()
+        const updatedCourseDetails = await Course.findById(courseId).populate("courseContent").exec()
 
         //return
         return res.status(200).json({
@@ -88,8 +80,9 @@ exports.updateSection = async (req, res) => {
 //deletion of section
 exports.deleteSection = async (req, res) => {
     try {
+        console.log("I am inside delete section")
         //get ID - assuming that we are sending ID in params
-        const {sectionId, courseId} = req.params
+        const {sectionId, courseId} = req.body
         //use findByIdandDelete
         const deletedSection = await Section.findByIdAndDelete(sectionId);
 
