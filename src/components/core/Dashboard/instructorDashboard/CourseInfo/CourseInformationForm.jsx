@@ -12,6 +12,7 @@ import toast from 'react-hot-toast'
 import RequirementField from './RequirementField'
 import TagsField from './TagsField'
 import { editCourseDetails } from '../../../../../services/operations/courseDetailsAPI'
+import Upload from '../Upload'
 
 const CourseInformationForm = () => {
 
@@ -20,6 +21,7 @@ const CourseInformationForm = () => {
         handleSubmit,
         setValue, //to setting the values
         getValues,
+        setError,
         formState: {errors} //to store any errors
     } = useForm()
 
@@ -280,6 +282,16 @@ const CourseInformationForm = () => {
         />
 
         {/* thumbnail upload component */}
+        <Upload
+            name="courseImage"
+            label="Course Thumbnail"
+            register={register}
+            setValue={setValue}
+            errors={errors}
+            setError={setError}
+            editData={editCourse ? course?.thumbnail : null}
+
+        />
 
         <div>
             <label htmlFor='courseBenefits'>Benefits of the course<sup>*</sup></label>

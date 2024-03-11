@@ -2,6 +2,7 @@ const Profile = require("../models/Profile");
 const User = require("../models/User");
 const Course = require("../models/Course");
 const uploadimageToCloudinary = require("../utils/imageUploader");
+require("dotenv").config()
 
 exports.updateProfile = async (req, res) => {
     try {
