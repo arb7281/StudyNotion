@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { FiUploadCloud } from "react-icons/fi"
+import { useSelector } from 'react-redux';
 
 const Upload = ({
     name,
@@ -14,23 +15,30 @@ const Upload = ({
   }) => {
   const [preview, setPreview] = useState(null);
   const [fileType, setFileType] = useState(null)
+  const {course, editCourse} = useSelector((state) => state.course)
+  const fileInputRef = useRef(null)
+
+  
 
   useEffect(() => {
     register(name, {required: true})
-  }, [register])
+    if(editCourse){
+      setPreview(course.thumbnail)
+    }
+  }, [register, editCourse])
 
-  const handleDrop = (e) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files[0];
+  const handleFileChange = (file) => {
+    // e.preventDefault();
+    // const file = e.dataTransfer.files[0];
 
     if(!file) return
     
-      const reader = new FileReader();
+      const reader = new FileReader(); //this we use when we need to work with file types
       //reader.onLoad is actualy an asynchronous method which only called after the file reading process is completed
       //and here file reading is getting done by reader.readAsDataURL this method once it completed the 
       //onload method will be triggered
       
-      reader.onload = () => {
+      reader.onload = () => {// this is the second step executed 
         setPreview(reader.result);
         setFileType(file.type);
 
@@ -53,63 +61,72 @@ const Upload = ({
         }
         
       }
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file);// this is the step fist executed
   };
 
-  // useEffect(() => {
-  //   if (fileType) {
-  //     if ((video && fileType.startsWith('video/')) || (!video && fileType.startsWith('image/'))) {
-  //       setError(name, false); // Clear error message
-  //     } else {
-  //       setError(name, { message: video ? 'Please upload a video file' : 'Please upload an image file' });
-  //     }
-  //   }
-  // }, [fileType, setError, name, video])
+  const handleDropOrFileInput = (e) => {
+    e.preventDefault();
+    const file = e.type === "drop" ? e.dataTransfer.files[0] : e.target.files[0]
+    handleFileChange(file)
+  }
 
   const handleDragOver = (e) => {
     e.preventDefault();
   };
 
+  const handleDivClick = () => {
+    fileInputRef.current.click()
+  }
+
   return (
     <div>
       <div
-        
-        style={{
-          width: "300px",
-          height: "300px",
-          border: "2px dashed #aaa",
-          borderRadius: "5px",
-          textAlign: "center",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-          cursor: "pointer",
-        }}
+        className='flex flex-col space-y-2'
+        onClick={handleDivClick}
+        onDrop={handleDropOrFileInput}
+        onDragOver={handleDragOver}
       >
-        <label>{label}</label>
-        {preview ? (
-          fileType.startsWith("image/") ? (
-            <img
-              src={preview}
-              alt="Preview"
-              style={{ maxWidth: "100%", maxHeight: "100%" }}
-            />
-          ) : (
-            <video
-              src={preview}
-              controls
-              style={{ maxWidth: "100%", maxHeight: "100%" }}
-            />
-          )
+        <label className='text-sm text-richblack-5' htmlFor={name}>{label} {!viewData && <sup className='text-pink-200'>*</sup>}</label>
+        <div className='flex min-h-[250px] cursor-pointer items-center justify-center rounded-md border-2 border-dotted border-richblack-500'>       
+        { preview ? (
+          <div className='flex w-full items-center flex-col p-6'>
+            {!video ? (
+              <img
+                src={preview}
+                alt="Preview"
+                
+                className='h-full w-full rounded-md object-cover max-w-[200px] max-h-[200px]'
+              />
+            ) : (
+              <video
+                src={preview}
+                controls
+                style={{ maxWidth: "100%", maxHeight: "100%" }}
+              />
+            )}
+            {!viewData && preview ? (
+              <button
+                onClick={(e) => {
+                  e.preventDefault();
+                  setPreview(null);
+                  setValue(name, null);
+                }}
+                className='mt-3 text-richblack-400 underline'
+              >
+                Cancel
+              </button>
+            ) : (
+              ""
+            )}
+          </div>
         ) : (
-          
-          <div
-            className="flex w-full flex-col items-center p-6"
-            onDrop={handleDrop}
-            onDragOver={handleDragOver}
-          >
-            {/* <input /> */}
+          <div className="flex w-full flex-col items-center p-6">
+            <input
+              type="file"
+              style={{ display: "none" }}
+              onChange={handleDropOrFileInput}
+              ref={fileInputRef}
+            />
             <div className="grid aspect-square w-14 place-items-center rounded-full bg-pure-greys-800">
               <FiUploadCloud className="text-2xl text-yellow-50" />
             </div>
@@ -118,19 +135,23 @@ const Upload = ({
               <span className="font-semibold text-yellow-50">Browse</span> a
               file
             </p>
-            <ul className="mt-10 flex list-disc justify-between space-x-12 text-center  text-xs text-richblack-200">
-              <li>Aspect ratio 16:9</li>
-              <li>Recommended size 1024x576</li>
-            </ul>
+            {video ? (
+              <ul className="mt-10 flex list-disc justify-between space-x-12 text-center  text-xs text-richblack-200">
+                <li>Aspect ratio 16:9</li>
+                <li>Recommended size 1024x576</li>
+              </ul>
+            ) : (
+              ""
+            )}
           </div>
-          
         )}
       </div>
       {errors[name] && (
         <span className="ml-2 text-xs tracking-wide text-pink-200">
-          {errors[name].message ? errors[name].message : label+ " is required"}
+          {errors[name].message ? errors[name].message : label + " is required"}
         </span>
       )}
+      </div>
     </div>
   );
 };

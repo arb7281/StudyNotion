@@ -68,7 +68,7 @@ export const editCourseDetails = async (formData,token) => {
         result = response?.data?.updatedCourseDetails
 
     }catch(error){
-        console.log("CATEGORIES_API error", error)
+        console.log("editCourseDetails", error)
         toast.error(error.message)
     }
 

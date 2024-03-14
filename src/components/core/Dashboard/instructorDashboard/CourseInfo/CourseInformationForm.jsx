@@ -60,14 +60,16 @@ const CourseInformationForm = () => {
 
         getCategories()
         
-    },[editCourse, setValue])
+    },[])
 
-    useEffect(() => {
-        if (editCourse) {
-            console.log("printing course", course)
-          setValue("courseCategory", course.category); // Assuming 'courseCategory' is the field name
-        }
-      }, [editCourse, setValue])
+
+
+    // useEffect(() => {
+    //     if (editCourse) {
+    //         console.log("printing course", course)
+    //       setValue("courseCategory", course.category); // Assuming 'courseCategory' is the field name
+    //     }
+    //   }, [editCourse, setValue])
 
     const isFormUpdated = () => {
         console.log("inside formUpdate")
@@ -79,7 +81,7 @@ const CourseInformationForm = () => {
             currentValues.courseTags.toString() !== course.tag.toString() ||
             currentValues.courseBenefits !== course.whatYouWillLearn || 
             currentValues.courseCategory !== course.category ||
-            // currentValues.courseImage !== course.thumbnail ||
+            currentValues.courseImage !== course.thumbnail ||
             currentValues.courseRequirements.toString() !== course.instructions.toString()
             ) {
                 return true
@@ -129,9 +131,9 @@ const CourseInformationForm = () => {
               }
 
               //will need lot of efforts
-              // if (currentValues.courseImage[0] !== course.thumbnail) {
-              //     formData.append("thumbnailImage", data.courseImage[0]); // Assuming courseImage is an array containing File objects
-              // }
+              if (currentValues.courseImage[0] !== course.thumbnail) {
+                  formData.append("thumbnailImage", data.courseImage[0]); // Assuming courseImage is an array containing File objects
+              }
 
               if (
                 currentValues.courseRequirements.toString() !==
@@ -175,11 +177,11 @@ const CourseInformationForm = () => {
         formData.append("price", data.coursePrice)
         formData.append("whatYouWillLearn", data.courseBenefits)
         formData.append("category", data.courseCategory)//this is holding id of category
-        // formData.append("instructions", data.courseRequirements)
+        
         formData.append("tag", JSON.stringify(data.courseTags))
         formData.append("instructions", JSON.stringify(data.courseRequirements)) /* unlock this and comment above line if you find babbar have written different code */
         formData.append("status", COURSE_STATUS.DRAFT)
-        // formData.append("thumbnailImage", data.thumbnail)
+        formData.append("thumbnailImage", data.courseImage)
 
         setLoading(true)
 
