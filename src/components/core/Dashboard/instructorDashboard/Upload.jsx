@@ -18,12 +18,13 @@ const Upload = ({
   const {course, editCourse} = useSelector((state) => state.course)
   const fileInputRef = useRef(null)
 
-  
+  console.log("printing add, viewData and edit data", viewData, editData)
 
   useEffect(() => {
     register(name, {required: true})
     if(editCourse){
-      setPreview(course.thumbnail)
+      
+      !video ? setPreview(course.thumbnail) : (viewData ? setPreview(viewData) : (editData && setPreview(editData)))
     }
   }, [register, editCourse])
 
@@ -32,7 +33,7 @@ const Upload = ({
     // const file = e.dataTransfer.files[0];
 
     if(!file) return
-    
+    console.log("video file received")
       const reader = new FileReader(); //this we use when we need to work with file types
       //reader.onLoad is actualy an asynchronous method which only called after the file reading process is completed
       //and here file reading is getting done by reader.readAsDataURL this method once it completed the 
@@ -51,7 +52,7 @@ const Upload = ({
           setValue(name, file); // Set value for form submission
           // setError(name, {message: null})
           errors[name] = null
-          console.log("file value set ")
+          console.log("file value set and this is file", file)
         } else {
           // Clear the preview, file type, and form value if the dropped file is not of the allowed type
           setPreview(null);
@@ -101,7 +102,8 @@ const Upload = ({
               <video
                 src={preview}
                 controls
-                style={{ maxWidth: "100%", maxHeight: "100%" }}
+                
+                className='h-full w-full rounded-md object-cover max-w-[500px] max-h-[500px]'
               />
             )}
             {!viewData && preview ? (
@@ -111,7 +113,7 @@ const Upload = ({
                   setPreview(null);
                   setValue(name, null);
                 }}
-                className='mt-3 text-richblack-400 underline'
+                className='mt-3 text-white underline'
               >
                 Cancel
               </button>

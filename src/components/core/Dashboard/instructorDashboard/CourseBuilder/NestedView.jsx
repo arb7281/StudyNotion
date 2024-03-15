@@ -8,6 +8,7 @@ import {RiDeleteBin6Line} from "react-icons/ri"
 import {RxDropdownMenu} from "react-icons/rx"
 import {AiOutlinePlus} from "react-icons/ai"
 import ConfirmationModal from './ConfirmationModal'
+import SubSectionModal from './SubSectionModal'
 
 const NestedView = ({handleChangeEditSectionName}) => {
 
@@ -149,7 +150,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
 
 
 {/* implement this logic using modal module */}
-        {/* {
+        {
             addSubSection ? (
                 <SubSectionModal
                     modalData={addSubSection}
@@ -171,7 +172,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
                     edit={true}
                 />
             ):(<div></div>)
-        } */}
+        }
         {
             confirmationModal ?
             (

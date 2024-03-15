@@ -1,9 +1,12 @@
-import React, { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { useDispatch, useSelector } from 'react-redux'
 import { setCourse } from '../../../../../slices/courseSlice'
 import toast from 'react-hot-toast'
 import { RxCross1 } from 'react-icons/rx'
+import Upload from '../Upload'
+import CTAButton from '../../../Homepage/CTAButton'
+import { createSubSection, deleteSubSection, updateSubSection } from '../../../../../services/operations/courseDetailsAPI'
 
 const SubSectionModal = ({
     modalData,
@@ -19,10 +22,11 @@ const {
     setValue,
     getValues,
     formState:{errors},
+    setError,
 } = useForm()
 
 const dispatch = useDispatch()
-const [loading, setLoading] = usestate()
+const [loading, setLoading] = useState()
 const {course} = useSelector((state) => state.course)
 const {token} = useSelector((state) => state.auth)
 
@@ -58,6 +62,7 @@ const handleEditSubSection = async () => {
 
     formData.append("sectionId", modalData.sectionId)
     formData.append("subSectionId", modalData._id)
+    formData.append("courseId", course._id)
 
     if(currentValues.lectureTitle !== modalData.title){
         formData.append("title", currentValues.lectureTitle)
@@ -82,7 +87,7 @@ const handleEditSubSection = async () => {
     setLoading(false)
 }
 
-const onSubmit = async () => {
+const onSubmit = async (data) => {
     if(view) return
 
     if(edit){
@@ -96,7 +101,8 @@ const onSubmit = async () => {
 
     const formData = new FormData()
     formData.append("sectionId", modalData)
-    formData.append("title", data.lecturetitle)
+    formData.append("courseId", course._id)
+    formData.append("title", data.lectureTitle)
     formData.append("description", data.lectureDesc)
     formData.append("video", data.lectureVideo)
     setLoading(true)
@@ -117,9 +123,74 @@ const onSubmit = async () => {
 
   return (
     <div>
-         
+      <div>
+        <div>
+          <p>
+            {view && "Viewing"}
+            {add && "Adding"}
+            {edit && "Editing"}
+          </p>
+          <button onClick={() => (!loading ? setModalData(null): {})}>
+            <RxCross1/>
+          </button>
+        </div>
+        <form>
+            <Upload
+                name="lectureVideo"
+                lebel="Lecture Video"
+                register={register}
+                setValue={setValue}
+                errors={errors}
+                setError={setError}
+                video={true}
+                viewData={view ? modalData.videoUrl : null}
+                editData={edit ? modalData.videoUrl : null}
+            />
+            <div>
+                <label htmlFor='lectureTitle'>Lecture Title</label>
+                <input
+                    id='lectureTitle'
+                    type='text'
+                    placeholder='Enter Lecture Title'
+                    {...register("lectureTitle", {required: true})}
+                    className='w-full'
+                />
+                {
+                    errors.lectureTitle && (
+                        <span>
+                            Lecture Title is required
+                        </span>
+                    )
+                }
+            </div>
+            <div>
+                <label htmlFor='lectureDesc'>Lecture description</label>
+                <textarea
+                    id='lectureDesc'
+                    placeholder='Enter Lecture Description'
+                    {...register("lectureDesc", {required: true})}
+                    className='w-full min-h-[130px]'
+                />
+                {
+                    errors.lectureDesc && (
+                        <span>
+                            Lecture Description is required
+                        </span>
+                    )
+                }
+            </div>
+            {
+              !view && (
+                <div>
+                   <CTAButton
+                   handleEvent={handleSubmit(onSubmit)}
+                   >{loading ? "Loading..." : edit ? "Save Changes" : "Save"}</CTAButton>
+                </div>)  
+            }
+        </form>
+      </div>
     </div>
-  )
+  );
 }
 
 export default SubSectionModal

@@ -57,9 +57,14 @@ exports.updateSection = async (req, res) => {
         }
 
         //update the data
-        const section = await Section.findByIdAndUpdate(sectionId, {sectionName}, {new:true});
+        const section = await Section.findByIdAndUpdate(sectionId, {sectionName}, {new:true}).populate("subSection").exec();
 
-        const updatedCourseDetails = await Course.findById(courseId).populate("courseContent").exec()
+        const updatedCourseDetails = await Course.findById(courseId).populate({
+            path: 'courseContent',
+            populate: {
+                path: 'subSection'
+            }
+        }).exec()
 
         //return
         return res.status(200).json({
