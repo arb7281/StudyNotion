@@ -50,6 +50,10 @@ studentsEnrolled:{
     },
  instructions: {
     type: String,
+},
+status: {
+    type: String,
+    enum: ["Draft", "Published"],
 }
 })
 

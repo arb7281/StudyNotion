@@ -99,17 +99,19 @@ const NestedView = ({handleChangeEditSectionName}) => {
                                 section?.subSection?.map((data) => (
                                     <div
                                     key={data?._id}
-                                    onClick={() => setViewSubSection(data)}
+                                    
                                     className='flex item-center justify-between gap-x-3 border-b-2'
                                     >
-                                        <div className='flex items-center gap-x-3'>
+                                        <div 
+                                        onClick={() => setViewSubSection(data)}
+                                        className='flex items-center gap-x-3 cursor-pointer'>
                                         {/* menu icon */}
                                             <RxDropdownMenu/>
                                             <p>{data.title}</p>
                                         </div>
                                         <div className='flex items-center gap-x-3'>
                                             <button
-                                            onClick={() => setEditSubSection({...data, sectionId:section._id})}
+                                            onClick={(e) => setEditSubSection({...data, sectionId:section._id})}
                                             >
                                             {/* edit icon */}
                                                 <MdEdit/>

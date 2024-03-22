@@ -83,7 +83,12 @@ exports.updateSubSection = async (req, res) => {
 
         const subSection = await SubSection.findByIdAndUpdate(subSectionId, {...updated}, {new:true});
 
-        const updatedCourseDetails = await Course.findById({_id: courseId}).populate("courseContent").exec()   
+        const updatedCourseDetails = await Course.findById(courseId).populate({
+            path: 'courseContent',
+            populate: {
+                path: 'subSection'
+            }
+        }).exec()  
                                                                             
             return res.status(200).json({
             success:true,
@@ -112,13 +117,20 @@ exports.deleteSubsection = async (req, res) => {
                 }
             })
             //secondly remove subsection itself
-            const subSection = await SubSection.findByIdAndDelete({_id: subSection})
+            let subSection = await SubSection.findByIdAndDelete({_id: subSectionId})
 
             if(!subSection) {
                 return res.status(404).json({success: false, message: "Subsection not found"})
             }
 
-            const updatedCourseDetails = await Course.findById(courseId).populate("courseContent").exec();
+            // const updatedCourseDetails = await Course.findById(courseId).populate("courseContent").exec();
+
+            const updatedCourseDetails = await Course.findById(courseId).populate({
+                path: 'courseContent',
+                populate: {
+                    path: 'subSection'
+                }
+            }).exec() 
             
 
             return res.json({

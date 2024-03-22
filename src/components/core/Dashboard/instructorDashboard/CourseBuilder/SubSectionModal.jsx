@@ -25,6 +25,8 @@ const {
     setError,
 } = useForm()
 
+console.log("printing modalData", modalData)
+console.log("printing value of view", view)
 const dispatch = useDispatch()
 const [loading, setLoading] = useState()
 const {course} = useSelector((state) => state.course)
@@ -38,9 +40,13 @@ useEffect(()=>{
         setValue("lectureDesc", modalData.description);
         setValue("lectureVideo", modalData.videoUrl)
     }
-},[])
 
+    const current = getValues();
+    console.log("printing cureent values received from modalData", current)
+},[setValue, modalData])
 
+const current = getValues();
+    console.log("printing cureent values received from modalData", current)
 //check if form updated or not
 
 const formUpdated = () => {
@@ -153,7 +159,8 @@ const onSubmit = async (data) => {
                     type='text'
                     placeholder='Enter Lecture Title'
                     {...register("lectureTitle", {required: true})}
-                    className='w-full'
+                    className='w-full text-black'
+                    disabled={view}
                 />
                 {
                     errors.lectureTitle && (
@@ -169,7 +176,8 @@ const onSubmit = async (data) => {
                     id='lectureDesc'
                     placeholder='Enter Lecture Description'
                     {...register("lectureDesc", {required: true})}
-                    className='w-full min-h-[130px]'
+                    className='w-full min-h-[130px] text-black'
+                    disabled={view}
                 />
                 {
                     errors.lectureDesc && (

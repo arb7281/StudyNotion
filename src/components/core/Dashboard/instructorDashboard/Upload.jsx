@@ -18,15 +18,21 @@ const Upload = ({
   const {course, editCourse} = useSelector((state) => state.course)
   const fileInputRef = useRef(null)
 
-  console.log("printing add, viewData and edit data", viewData, editData)
+  console.log("printing video in Upload.jsx", video)
+  console.log("printing viewData", viewData)
 
   useEffect(() => {
     register(name, {required: true})
-    if(editCourse){
+    if(editCourse || viewData || editData){
       
       !video ? setPreview(course.thumbnail) : (viewData ? setPreview(viewData) : (editData && setPreview(editData)))
+     
+    }else{
+      console.log("I am directly into else case")
     }
-  }, [register, editCourse])
+    
+    
+  }, [editCourse, viewData, editData])
 
   const handleFileChange = (file) => {
     // e.preventDefault();
