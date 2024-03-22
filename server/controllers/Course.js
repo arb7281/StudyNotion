@@ -129,7 +129,7 @@ exports.editCourse = async (req, res) => {
 
         // fetch data
         const {courseId, ...updateFields} = req.body  
-        console.log("printing courseId is backend", courseId)   
+        console.log("printing updated fields in backend", updateFields)   
 
         //get thumbnail
         const thumbnail = req.files?.thumbnailImage;
@@ -153,6 +153,7 @@ exports.editCourse = async (req, res) => {
         let categoryDetails
         if (updateFields.category) {
         categoryDetails = await Category.findById(updateFields.category);
+        console.log("printing category detals in backend", categoryDetails)
           if (!categoryDetails) {
             return res.status(400).json({
               success: false,
@@ -175,9 +176,19 @@ exports.editCourse = async (req, res) => {
             courseId,
             {...updateFields},
             {new:true}
-        ).populate("courseContent").exec();
+        ).populate({
+            path:"courseContent", 
+            populate: {
+                path: 'subSection'
+            }
+        }).exec();
 
-
+        // const updatedCourseDetails = await Course.findById(courseId).populate({
+        //     path: 'courseContent',
+        //     populate: {
+        //         path: 'subSection'
+        //     }
+        // }).exec() 
 
             //add the new course to the categories
             if(categoryDetails !== undefined){
@@ -214,7 +225,7 @@ exports.editCourse = async (req, res) => {
 //getAllCourses
 exports.getAllCourses = async (req, res) => {
     try {
-            const allCourses = await Course.find({}, {courseName: true,
+            const allCourses = await Course.find({status:"Published"}, {courseName: true,
                                                         price:true,
                                                         thumbnail:true,
                                                         instructor:true,

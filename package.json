@@ -29,7 +29,9 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "server": "cd server && npm run dev",
-    "dev": "concurrently -n \"client,server\" -c \"bgBlue,bgYellow\" \"npm start\" \"npm run server\""
+    "dev": "concurrently -n \"client,server\" -c \"bgBlue,bgYellow\" \"npm start\" \"npm run server\"",
+    "server2": "cd server && npm run go",
+    "go": "concurrently -n \"client,server\" -c \"bgBlue,bgYellow\" \"npm start\" \"npm run server2\""
   },
   "eslintConfig": {
     "extends": [

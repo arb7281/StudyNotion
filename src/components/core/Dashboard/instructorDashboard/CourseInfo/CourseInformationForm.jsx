@@ -28,6 +28,7 @@ const CourseInformationForm = () => {
     const dispatch = useDispatch()
 
     const {course, editCourse} = useSelector((state) => state.course)
+    console.log("printing course after render", course)
     const {token} = useSelector((state) => state.auth)
     const [loading, setLoading] = useState(false)
     const [courseCategories, setCourseCategories] = useState([])
@@ -52,7 +53,7 @@ const CourseInformationForm = () => {
             setValue("courseTags", course.tag)
             setValue("courseBenefits", course.whatYouWillLearn)
             console.log("printing value of courseCategory", course.category)
-            // setValue("courseCategory", course.category)
+            setValue("courseCategory", course.category)
             setValue("courseRequirements", course.instructions)
             setValue("courseImage", course.thumbnail)
 
@@ -78,11 +79,11 @@ const CourseInformationForm = () => {
         if(currentValues.courseTitle !== course.courseName ||
             currentValues.courseShortDesc !== course.courseDescription ||
             currentValues.coursePrice !== course.price ||
-            currentValues.courseTags.toString() !== course.tag.toString() ||
+            currentValues.courseTags.toString() !== course.tag ||
             currentValues.courseBenefits !== course.whatYouWillLearn || 
-            currentValues.courseCategory !== course.category ||
+            currentValues.courseCategory._id !== course.category._id ||
             currentValues.courseImage !== course.thumbnail ||
-            currentValues.courseRequirements.toString() !== course.instructions.toString()
+            currentValues.courseRequirements.toString() !== course.instructions
             ) {
                 return true
             }
@@ -106,32 +107,38 @@ const CourseInformationForm = () => {
               formData.append("courseId", course._id); //for updating coiurse we will need courseID
               //check if title is updated or not
               if (currentValues.courseTitle !== course.courseName) {
+                // console.log("title changed was", course.courseName, "and now ", currentValues.courseTitle)
                 formData.append("courseName", data.courseTitle);
               }
 
               if (currentValues.courseShortDesc !== course.courseDescription) {
+                console.log("desc changed")
                 formData.append("courseDescription", data.courseShortDesc);
               }
 
               if (currentValues.coursePrice !== course.price) {
+                console.log("price changed")
                 formData.append("price", data.coursePrice);
               }
 
               if (currentValues.courseBenefits !== course.whatYouWillLearn) {
+                console.log("benefits changed")
                 formData.append("whatYouWillLearn", data.courseBenefits);
               }
 
-              if (currentValues.courseCategory !== course.category) {
+              if (currentValues.courseCategory._id !== course.category._id) {
                 console.log("category is changed", currentValues.courseCategory)
                 formData.append("category", data.courseCategory);
               }
 
-              if(currentValues.courseTags.toString() !== course.tag.toString()){
+              if(currentValues.courseTags.toString() !== course.tag){
+                console.log("tags changed is", currentValues.courseTags, "and was ", course.tag)
                   formData.append("tag", JSON.stringify(data.courseTags))
               }
 
               //will need lot of efforts
               if (currentValues.courseImage[0] !== course.thumbnail) {
+                console.log("thumb changed")
                   formData.append("thumbnailImage", data.courseImage[0]); // Assuming courseImage is an array containing File objects
               }
 
@@ -139,6 +146,7 @@ const CourseInformationForm = () => {
                 currentValues.courseRequirements.toString() !==
                 course.instructions.toString()
               ) {
+                console.log("instruction changed")
                 formData.append(
                   "instructions",
                   JSON.stringify(data.courseRequirements)
@@ -177,7 +185,7 @@ const CourseInformationForm = () => {
         formData.append("price", data.coursePrice)
         formData.append("whatYouWillLearn", data.courseBenefits)
         formData.append("category", data.courseCategory)//this is holding id of category
-        
+        console.log("printing data.courseCategory", data.courseCategory)
         formData.append("tag", JSON.stringify(data.courseTags))
         formData.append("instructions", JSON.stringify(data.courseRequirements)) /* unlock this and comment above line if you find babbar have written different code */
         formData.append("status", COURSE_STATUS.DRAFT)
@@ -257,9 +265,14 @@ const CourseInformationForm = () => {
             >
                 <option value="" disabled>Choose a Category</option>
                 {
-                    !loading && courseCategories.map((category, index) => (
+                    !loading && courseCategories?.map((category, index) => (
                         //value = category._id will actualy save id of category
-                        <option key={index} value={category?._id}>
+                    
+                        <option 
+                        key={index} 
+                        value={category?._id}
+                        selected={editCourse && course.category === category?._id}
+                        >
                             {category?.name}
                         </option>
                     ))

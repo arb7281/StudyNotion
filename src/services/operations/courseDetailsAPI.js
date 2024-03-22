@@ -73,6 +73,7 @@ export const editCourseDetails = async (formData,token) => {
         }
         toast.success("Course Details Added Successfully")
         result = response?.data?.updatedCourseDetails
+        console.log("printing updated course", result)
 
     }catch(error){
         console.log("editCourseDetails", error)
