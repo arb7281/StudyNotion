@@ -9,7 +9,7 @@ const bcrypt = require("bcrypt")
 exports.auth = async (req, res, next) => {
     try{
         //extract token
-        console.log("I am inside auth middleware")
+        
         const token = req.cookies.token || req.body.token ||  req.header("Authorization").replace("Bearer ","");
         console.log("printing token",token);
 

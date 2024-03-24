@@ -12,7 +12,9 @@ const {CREATE_COURSE_API,
     DELETE_SECTION_API, 
     DELETE_SUB_SECTION_API, 
     CREATE_SUB_SECTION_API, 
-    UPDATE_SUB_SECTION_API} = courseEndpoints
+    UPDATE_SUB_SECTION_API,
+    DELETE_COURSE_API,
+    INSTRUCTOR_COURSES_API} = courseEndpoints
 
 export const fetchCourseCategories = async () => {
 
@@ -234,4 +236,47 @@ export const updateSubSection = async (data,token) => {
     toast.dismiss(toastId)
     
     return result
+}
+
+export const fetchInstructorCourses = async (token) => {
+
+    let result = []
+
+    try{
+        const response = await apiConnector("GET", INSTRUCTOR_COURSES_API,null, {Authorization: `Bearer ${token}`})
+
+        if(!response.data.success){
+            throw new Error("Could fetch instructor courses")
+        }
+        result = response?.data.data
+        console.log("printing instructor courses", result)
+
+    }catch(error){
+        console.log("instructor courses_API error", error)
+        toast.error(error.message)
+    }
+    
+    return result
+}
+
+export const deleteCourse = async (data,token) => {
+    
+    const toastId = toast.loading("Loading...")
+    // console.log("printing create course api", CREATE_COURSE_API)
+    try{
+        const response = await apiConnector("DELETE", DELETE_COURSE_API, data, {
+            
+            Authorization: `Bearer ${token}`})
+
+        if(!response.data.success){
+            throw new Error("Could Not delete course successfully")
+        }
+        toast.success("Course Section deleted Successfully")
+
+    }catch(error){
+        console.log("DELETE_COURSE_API error", error)
+        toast.error(error.message)
+    }
+
+    toast.dismiss(toastId)
 }

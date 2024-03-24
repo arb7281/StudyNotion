@@ -2,7 +2,10 @@ const Course = require("../models/Course");
 const Category = require("../models/Category");
 const User = require("../models/User");
 const {uploadimageToCloudinary} = require("../utils/imageUploader");
+const Section = require("../models/Section");
+const SubSection = require("../models/SubSection");
 require("dotenv").config()
+const mongoose = require("mongoose")
 
 //createCourse handler function
 exports.createCourse = async (req, res) => {
@@ -295,6 +298,92 @@ exports.getCoursedetails = async (req, res) => {
         })
     }
 }
+
+exports.getAllInstructorCourses = async (req, res) => {
+
+    const userId = req.user.id
+    console.log("printing user id into fetchInstructorCourses", userId)
+
+    try {
+            const allCourses = await Course.find({ instructor: userId }).sort({createdAt: -1});
+
+            return res.status(200).json({
+                success:true,
+                message:"Data for all courses fetched successfully",
+                data:allCourses
+            })                                            
+    }catch(error){
+        console.error(error);
+        return res.status(500).json({
+          success: false,
+          message: "Cannot fetch data",
+          error: error.message,
+        });
+    }
+}
+
+exports.deleteCourse = async (req, res) => {
+    console.log("I am inside delete course")
+  const courseId = req.body;
+  const id = courseId.courseId
+  console.log("courseId received at backend", id)
+  try {
+    const course = await Course.findById({_id:id});
+    console.log("printing course", course)
+    if (!course) {
+      return res.status(404).json({
+        message: "Course not found",
+      });
+    }
+    //unenroll students from the course
+    const studentsEnrolled = course.studentsEnrolled;
+    //there will be user id's in studentsEnrolled object we are travering on this object using for of loop here studentsenrolled is an array so for of loop commonly used for arrays
+    if(studentsEnrolled !== undefined){
+        for (const studentId of studentsEnrolled) {
+            // const objectId = mongoose.Types.ObjectId(studentId.match(/"([^"]+)"/)[1])
+            await User.findByIdAndUpdate({_id:studentId}, {
+              $pull: { courses: courseId },
+            });
+          }
+    }
+    
+    //now delete sections and subsections from that course
+    const courseSections = course.courseContent;
+    console.log("printing courseSections", courseSections)
+if(courseSections !== undefined){
+    for (const sectionID of courseSections) {
+        //delete sub sections
+        const newSectionId = sectionID.toString()
+        console.log("printing stringed section Id", newSectionId)
+        // const objectId = mongoose.Types.ObjectId(sectionID.match(/"([^"]+)"/)[1])
+        const section = await Section.findById(sectionID);
+        console.log("printing section", section)
+        if(section !== undefined){
+            for (const subSectionId of section.subSection) {
+                const newSubSectionId = subSectionId.toString()
+                // const objectId = mongoose.Types.ObjectId(subSectionId.match(/"([^"]+)"/)[1])
+                await SubSection.findByIdAndDelete(newSubSectionId);
+              }
+        }
+        await Section.findByIdAndDelete(newSectionId);
+      }
+}
+    
+    await Course.findByIdAndDelete({_id:id});
+
+    return res.status(200).json({
+      success: true,
+      message: "Course Deleted successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+      error: error.message,
+    });
+  }
+};
 
 // exports.updateCourse = async (req, res) => {
 //     try {
