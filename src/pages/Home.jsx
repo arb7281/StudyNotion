@@ -31,7 +31,7 @@ const Home = () => {
         {/* become an instructor button */}
         
           <div className=" mt-16 p-1 rounded-full text-richblack-200 mx-auto bg-richblack-800 w-fit z-10" >  
-          {user?.accountType === ACCOUNT_TYPE.STUDENT ? (<div></div>) : 
+          {user?.accountType === ACCOUNT_TYPE.INSTRUCTOR ? (<div></div>) : 
             <Link to={"/signup"}>
               <div className=" flex items-center gap-1 px-3 py-2 font-medium transition-all duration-200  rounded-full" onClick={() => dispatch(setAccountType("Instructor"))}>Become an instructor
               <FaArrowRight />

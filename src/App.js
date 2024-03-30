@@ -23,6 +23,7 @@ import Cart from "./components/core/Dashboard/cart/Cart";
 import { ACCOUNT_TYPE } from "./utils/constants";
 import AddCourse from "./components/core/Dashboard/instructorDashboard/AddCourse";
 import MyCourses from "./components/core/Dashboard/MyCourses";
+import EditCourse from "./components/core/Dashboard/EditCourse/EditCourse";
 
 
 
@@ -74,7 +75,7 @@ function App() {
           (<>
             <Route path="add-course" element={<AddCourse/>} />
             <Route path="my-courses" element={<MyCourses/>} />
-            {/* <Route path="cart" element={<Cart/>} /> */}
+            <Route path="edit-course/:courseId" element={<EditCourse/>} />
           </>            
           )
         }

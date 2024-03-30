@@ -27,10 +27,10 @@ const RenderSteps = () => {
 
   return (
     <>
-      <div>
+      <div className='flex flex-row'>
         {steps.map((item, index) => (
-          <div key={item.id}>
-            <div>
+          <div key={item.id} >
+            <div className='flex'>
               <div
                 className={`${
                   step === item.id
@@ -43,7 +43,7 @@ const RenderSteps = () => {
               {index < steps.length - 1 && (
                 <div
                   className={`${
-                    step >= item.id
+                    step > item.id
                       ? "bg-yellow-50"
                       : "border-richblack-700 bg-richblack-800"
                   } h-1 w-6 mx-2`}
@@ -65,6 +65,7 @@ const RenderSteps = () => {
             ))
         }
       </div>
+
 
       {step === 1 && <CourseInformationForm/>}
       {step === 2 && <CourseBuilderForm/>}

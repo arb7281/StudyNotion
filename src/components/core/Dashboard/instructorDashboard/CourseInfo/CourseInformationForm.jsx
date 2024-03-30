@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import {HiOutlineCurrencyRupee} from 'react-icons/hi'
 import {fetchCourseCategories} from "../../../../../services/operations/courseDetailsAPI"
-import { setStep } from '../../../../../slices/courseSlice'
+import { setEditCourse, setStep, setAddCourse } from '../../../../../slices/courseSlice'
 import CTAButton from '../../../Homepage/CTAButton'
 import { COURSE_STATUS } from '../../../../../utils/constants'
 import { createCourse } from '../../../../../services/operations/courseDetailsAPI'
@@ -27,11 +27,15 @@ const CourseInformationForm = () => {
 
     const dispatch = useDispatch()
 
-    const {course, editCourse} = useSelector((state) => state.course)
+    const {course, editCourse, addCourse} = useSelector((state) => state.course)
+    console.log("printing course, editCourse, addCourse", course, editCourse, addCourse)
+    console.log("printing course after edit course", course)
     console.log("printing course after render", course)
     const {token} = useSelector((state) => state.auth)
     const [loading, setLoading] = useState(false)
     const [courseCategories, setCourseCategories] = useState([])
+
+   
 
     useEffect(() => {
         setLoading(true)

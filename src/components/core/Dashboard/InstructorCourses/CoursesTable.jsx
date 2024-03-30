@@ -7,19 +7,23 @@ import { FiEdit2 } from 'react-icons/fi';
 import ConfirmationModal from '../instructorDashboard/CourseBuilder/ConfirmationModal';
 import { RiDeleteBin6Line } from 'react-icons/ri';
 import { useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaCheck } from 'react-icons/fa';
 import { fetchInstructorCourses } from '../../../../services/operations/courseDetailsAPI';
 import { deleteCourse } from '../../../../services/operations/courseDetailsAPI';
 import { formatDate } from '../../../../services/formatDate';
+import { setCourse, setEditCourse, setAddCourse, setStep } from '../../../../slices/courseSlice';
 
-const CoursesTable = ({courses, setCourses}) => {
+const CoursesTable = ({courses, setCourses, selectedIds, setSelectedIds}) => {
 
     const [loading, setLoading] = useState(false)
     const {token} = useSelector((state) => state.auth)
     const [confirmationModal, setConfirmationModal] = useState(null)
+    const dispatch = useDispatch()
+    // const{course} = useselector((state) => state.course)
     const navigate = useNavigate()
     const TRUNCATE_LENGTH = 30
+    // const [selectedIds, setSelectedIds] = useState([]);
 
     const handleCourseDelete = async (courseId) => {
         setLoading(true)
@@ -33,6 +37,13 @@ const CoursesTable = ({courses, setCourses}) => {
         setConfirmationModal(null)
         setLoading(false)
     }
+
+    const handleCheckboxChange = (courseId, isChecked) => {
+      const newSelectedIds = isChecked
+        ? [...selectedIds, courseId]  // Access course._id for the ID
+        : selectedIds.filter((id) => id !== courseId);
+      setSelectedIds(newSelectedIds);
+    };
 
   return (
     <div>
@@ -66,6 +77,16 @@ const CoursesTable = ({courses, setCourses}) => {
                 key={course._id}
                 className="flex gap-x-10 border-b border-richblack-800 px-6 py-8"
               >
+                <Td>
+                  <input
+                    type="checkbox"
+                    id={course._id}
+                    checked={selectedIds.includes(course._id)}
+                    onChange={(e) =>
+                      handleCheckboxChange(course._id, e.target.checked)
+                    }
+                  />
+                </Td>
                 <Td className="flex flex-1 gap-x-4">
                   <img
                     src={course?.thumbnail}
@@ -113,6 +134,10 @@ const CoursesTable = ({courses, setCourses}) => {
                   <button
                     disabled={loading}
                     onClick={() => {
+                      console.log("printing course in edit", course);
+                      dispatch(setStep(1));
+                      dispatch(setEditCourse(true));
+                      dispatch(setCourse(course));
                       navigate(`/dashboard/edit-course/${course._id}`);
                     }}
                     title="Edit"

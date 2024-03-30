@@ -73,7 +73,7 @@ export const editCourseDetails = async (formData,token) => {
         if(!response.data.success){
             throw new Error("Could Not fetch course details")
         }
-        toast.success("Course Details Added Successfully")
+        toast.success("Course Details Updated Successfully")
         result = response?.data?.updatedCourseDetails
         console.log("printing updated course", result)
 
