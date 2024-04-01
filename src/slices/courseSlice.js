@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import authSlice from "./authSlice";
 
 const initialState = {
     step: 1,
@@ -46,3 +47,7 @@ export const {
 } = courseSlice.actions
 
 export default courseSlice.reducer
+
+
+
+

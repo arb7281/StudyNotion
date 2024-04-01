@@ -60,7 +60,12 @@
         const {categoryId} = req.body;
 
         //get courses for specified categoryId
-        const selectedCategory = await Category.findById(categoryId).polpulate("courses").exec();
+        const selectedCategory = await Category.findById(categoryId)
+            .polpulate({
+                path: "courses",
+                match: {status: "Published"},
+                populate: "ratingAndReviews"
+            }).exec();
 
         //validation
         if(!selectedCategory) {
@@ -70,13 +75,35 @@
             })
         }
 
-        //getting top 10 most selling courses
-        const topSellingCourses = selectedCategory.courses.sort((a, b) => a.salesCount - b.salesCount).slice(0, 10)
+        //you will have all categories with courses field popularized
+        const allCategories = await Category.find()
+            .populate({
+                path: "courses",
+                match: {status: "Published"},
+                populate:{
+                    path: "instructor"
+                }
+            }).exec()
 
-        //get course for different categories
-        const differentCategories = await Category.find({
-            _id:{$ne: categoryId},
-        }).populate("courses").exec();
+        //getting top 10 courses from all categories
+        const allCourses = allCategories.flatMap((category) => category.courses)
+        //getting top 10 most selling courses
+        const topSellingCourses = allCourses.sort((a, b) => b.sold - a.sold).slice(0, 10)
+
+        //get course for different categories other than selected one
+        const categoriesExceptSelected = await Category.find({
+            _id: { $ne: categoryId },
+          })
+          let differentCategories = await Category.findOne(
+            //getting random category courses 
+            categoriesExceptSelected[getRandomInt(categoriesExceptSelected.length)]
+              ._id
+          )
+            .populate({
+              path: "courses",
+              match: { status: "Published" },
+            })
+            .exec()
 
         //return response
         return res.status(200).json({

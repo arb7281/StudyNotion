@@ -3,7 +3,7 @@ import { categories, courseEndpoints } from "../api";
 import toast from "react-hot-toast";
 
 
-const {CATEGORIES_API } = categories
+const {CATEGORIES_API, CATEGORY_PAGE_DETAILS_API } = categories
 
 const {CREATE_COURSE_API, 
     UPDATE_COURSE_API, 
@@ -30,6 +30,26 @@ export const fetchCourseCategories = async () => {
 
     }catch(error){
         console.log("CATEGORIES_API error", error)
+        toast.error(error.message)
+    }
+    
+    return result
+}
+
+export const categoryPageDetails = async (categoryId) => {
+
+    let result = []
+
+    try{
+        const response = await apiConnector("GET", CATEGORY_PAGE_DETAILS_API)
+
+        if(!response.data.success){
+            throw new Error("Could Not fetch CATEGORY_PAGE_DETAILS")
+        }
+        result = response?.data?.data
+
+    }catch(error){
+        console.log("CATEGORY_PAGE_DETAILS_API error", error)
         toast.error(error.message)
     }
     
