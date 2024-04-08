@@ -58,15 +58,16 @@
     try {
         //get categoryid
         const {categoryId} = req.body;
-
+        console.log("printing req.body",req.body)
         //get courses for specified categoryId
         const selectedCategory = await Category.findById(categoryId)
-            .polpulate({
+            .populate({
                 path: "courses",
                 match: {status: "Published"},
-                populate: "ratingAndReviews"
+                // populate: { path: "ratingAndReviews" }
             }).exec();
 
+            console.log("printing selectedCategory", selectedCategory)
         //validation
         if(!selectedCategory) {
             return res.status(404).json({
@@ -90,6 +91,9 @@
         //getting top 10 most selling courses
         const topSellingCourses = allCourses.sort((a, b) => b.sold - a.sold).slice(0, 10)
 
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * Math.floor(max));
+          }
         //get course for different categories other than selected one
         const categoriesExceptSelected = await Category.find({
             _id: { $ne: categoryId },

@@ -10,9 +10,15 @@ const categorySchema = new mongoose.Schema({
     link:{
         type:String
     },
-    courses:{
-        type:mongoose.Schema.Types.ObjectId,
-    }
+    courses:[
+        {
+            type:mongoose.Schema.Types.ObjectId,
+            ref: "Course"
+        }
+        
+    ]
+        
+    
 
 })
 

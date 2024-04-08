@@ -71,7 +71,7 @@ function Navbar(props) {
                     opacity-0 transition-all duration-200 group-hover:visible group-hover:opacity-100 lg:w-[300px] z-50">
                     <div className='absolute left-[56%] top-[-8px] h-6 w-6 rotate-45 rounded bg-richblack-5 '> </div>
                     {subLinks.map((category, index) => (
-                        <Link to={`/${category._id}`}>
+                        <Link to={`catalog/${category._id}`}>
                           <div key={index}>{category.name}</div>
                         </Link>
                       ))}

@@ -39,9 +39,10 @@ export const fetchCourseCategories = async () => {
 export const categoryPageDetails = async (categoryId) => {
 
     let result = []
-
+    console.log("printing categoryId inside categoryPageDetails", categoryId )
     try{
-        const response = await apiConnector("GET", CATEGORY_PAGE_DETAILS_API)
+        console.log("printing path", CATEGORY_PAGE_DETAILS_API)
+        const response = await apiConnector("POST", CATEGORY_PAGE_DETAILS_API, {categoryId: categoryId,})
 
         if(!response.data.success){
             throw new Error("Could Not fetch CATEGORY_PAGE_DETAILS")
