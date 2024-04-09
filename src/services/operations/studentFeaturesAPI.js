@@ -68,6 +68,9 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
         }
         //miss hogya tha 
         const paymentObject = new window.Razorpay(options);
+        //using below code we opened SDK modal which has options which we have set using the response received from (COURSE_PAYMENT_API)capturepayment api
+        //this api usualy creates a new order with order id and sebds required info for options to make in response to frontend
+        //then handlers inside this options object will be called when user initiates or submit for payment
         paymentObject.open();
         paymentObject.on("payment.failed", function(response) {
             toast.error("oops, payment failed");
@@ -82,6 +85,7 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
     toast.dismiss(toastId);
 }
 
+//this function used in buyCourse 
 async function sendPaymentSuccessEmail(response, amount, token) {
     try{
         await apiConnector("POST", SEND_PAYMENT_SUCCESS_EMAIL_API, {
@@ -97,6 +101,8 @@ async function sendPaymentSuccessEmail(response, amount, token) {
     }
 }
 
+
+//this function also used in buyCourse 
 //verify payment
 async function verifyPayment(bodyData, token, navigate, dispatch) {
     const toastId = toast.loading("Verifying Payment....");
