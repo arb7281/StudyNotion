@@ -5,6 +5,10 @@ export const categories = {
     CATEGORY_PAGE_DETAILS_API: BASE_URL + "/course/getCategoryPageDetails"
 }
 
+export const profileEndpoints = {
+    GET_USER_ENROLLED_COURSES_API: BASE_URL + "/profile/getEnrolledCourses",
+  }
+
 export const endpoints = {
     RESETPASSTOKEN_API: BASE_URL + "/auth/reset-password-token",
     RESETPASSWORD_API: BASE_URL + "/auth/reset-password",
@@ -13,6 +17,12 @@ export const endpoints = {
     LOGIN_API: BASE_URL + "/auth/login",
     CHANGE_PASSWORD_API: BASE_URL + "/auth/changepassword"
 }
+
+export const studentEndpoints = {
+    COURSE_PAYMENT_API: BASE_URL + "/payment/capturePayment",
+    COURSE_VERIFY_API: BASE_URL + "/payment/verifyPayment",
+    SEND_PAYMENT_SUCCESS_EMAIL_API: BASE_URL + "/payment/sendPaymentSuccessEmail",
+  }
 
 export const contactusEndpoint = {
     CONTACT_US_API: BASE_URL + "/contact/contactUs",

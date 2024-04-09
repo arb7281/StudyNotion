@@ -27,14 +27,14 @@ const Course_Card = ({course, Height}) => {
                     />
                 </div>
                 <div>
-                    <p>{course?.courseName}</p>
-                    <p>{course?.instructor?.firstName} {course?.instructor?.lastName} </p>
+                    <p className='text-white'>{course?.courseName}</p>
+                    <p className='text-white'>{course?.instructor?.firstName} {course?.instructor?.lastName} </p>
                     <div className='flex gap-x-3'>
-                        <span>{avgReviewCount || 0}</span>
+                        <span className='text-white'>{avgReviewCount || 0}</span>
                         <RatingStars Review_Count={avgReviewCount} />
-                        <span>{course?.ratingAndReviews?.length} Ratings</span>
+                        <span className='text-white'>{course?.ratingAndReviews?.length} Ratings</span>
                     </div>
-                    <p>{course?.price}</p>
+                    <p className='text-white'>{course?.price}</p>
                 </div>
             </div>
         </Link>
