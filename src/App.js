@@ -15,7 +15,7 @@ import VerifyEmail from "./pages/VerifyEmail";
 import About from "./pages/About";
 import ContactUs from "./pages/ContactUs";
 import MyProfile from "./components/core/Dashboard/MyProfile";
-import { Error } from "./pages/Error";
+import  Error  from "./pages/Error";
 import Settings from "./components/core/Dashboard/Settings";
 import { getUserDetails } from "./services/operations/authAPI";
 import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";

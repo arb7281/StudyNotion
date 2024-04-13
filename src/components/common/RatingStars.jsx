@@ -6,6 +6,7 @@ import {
 } from "react-icons/ti"
 
 function RatingStars({ Review_Count, Star_Size }) {
+  console.log("I am inside ratingStars")
   const [starCount, SetStarCount] = useState({
     full: 0,
     half: 0,

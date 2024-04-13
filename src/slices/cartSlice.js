@@ -21,7 +21,9 @@ const cartSlice = createSlice ({
         //resetCart
         addToCart: (state, action) => {
             const course = action.payload//send course as attribute inside addToCart function when you dispatch it
+            console.log("printing courseID into addToCart slice", course._id)
             const index = state.cart.findIndex((item) => item._id === course._id)// find index of item if it present in cart
+            // console.log("printing index", index)
 
             if(index >= 0){//if the index is present which means course is already present into the cart
                 toast.error("course already in cart")
@@ -37,9 +39,9 @@ const cartSlice = createSlice ({
             state.total += course.price
 
             //now update the locastorage with new parameters of state
-            localStorage.setItem("cart", JSON.stringyfy(state.cart))
-            localStorage.setItem("total", JSON.stringyfy(state.total))
-            localStorage.setItem("totalitems", JSON.stringyfy(state.totalItems))
+            localStorage.setItem("cart", JSON.stringify(state.cart))
+            localStorage.setItem("total", JSON.stringify(state.total))
+            localStorage.setItem("totalitems", JSON.stringify(state.totalItems))
 
             //show toast
             toast.success("course added to cart")
@@ -49,7 +51,7 @@ const cartSlice = createSlice ({
             //to remove a cart get id from payload
             const courseId = action.payload
             //find index using courseId
-            const index = state.cart.findindex((item) => item._id === courseId)
+            const index = state.cart.findIndex((item) => item._id === courseId)
 
             if(index >= 0) {
                 //if index is present 
@@ -59,9 +61,9 @@ const cartSlice = createSlice ({
                 //remove course object from cart
                 state.cart.splice(index, 1)
                 //update localstorage
-                localStorage.setItem("cart", JSON.stringyfy(state.cart))
-                localStorage.setItem("total", JSON.stringyfy(state.total))
-                localStorage.setItem("totalitems", JSON.stringyfy(state.totalItems))
+                localStorage.setItem("cart", JSON.stringify(state.cart))
+                localStorage.setItem("total", JSON.stringify(state.total))
+                localStorage.setItem("totalitems", JSON.stringify(state.totalItems))
 
                 toast.success("course removed from cart")
 
