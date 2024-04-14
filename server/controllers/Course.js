@@ -5,8 +5,10 @@ const User = require("../models/User");
 const {uploadimageToCloudinary} = require("../utils/imageUploader");
 const Section = require("../models/Section");
 const SubSection = require("../models/SubSection");
+// const CourseProgress = require("../models/CourseProgress")
 require("dotenv").config()
 const mongoose = require("mongoose")
+const { convertSecondsToDuration } = require("../utils/secToduration")
 
 //createCourse handler function
 exports.createCourse = async (req, res) => {
@@ -401,7 +403,7 @@ exports.getFullCourseDetails = async (req, res) => {
           },
         })
         .populate("category")
-        .populate("ratingAndReviews")
+        // .populate("ratingAndReviews")
         .populate({
           path: "courseContent",
           populate: {

@@ -44,10 +44,10 @@ tag: {
     type: String,
     
 },
-studentsEnrolled:{
+studentsEnrolled:[{
         type:mongoose.Schema.Types.ObjectId,
         ref:"User"
-    },
+    }],
  instructions: {
     type: String,
 },

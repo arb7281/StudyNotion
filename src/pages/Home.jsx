@@ -43,12 +43,12 @@ const Home = () => {
         
 
         {/* some intro text */}
-        <div className=" bg-richblack-800 mt-7 font-semibold text-4xl text-center">
+        <div className="  mt-7 font-semibold text-4xl text-center">
           Empower your future with
           <HighlightText text={" Coding Skills"} />
         </div>
         {/* some descriptive text */}
-        <p className="mt-4 w-[70%] mx-auto text-center text-lg font-bold text-richblack-300 bg-caribbeangreen-200">
+        <p className="mt-4 w-[70%] mx-auto text-center text-lg font-bold text-richblack-300">
           With our online coding courses, you can learn at your own pace, from
           anywhere in the world, and get access to a wealth of resources,
           including hands-on projects, quizzes, and personalized feedback from
@@ -72,7 +72,7 @@ const Home = () => {
             heading={
               <div className="text-4xl font-semibold">
                 Unlock your
-                <HighlightText text={"coding potential"} />
+                <HighlightText text={" coding potential "} />
                 with our online courses.
               </div>
             }
@@ -80,7 +80,7 @@ const Home = () => {
                          who have years of experience in coding and are passionate 
                          about sharing their knowledge with you.`}
             ctaBtn1={{
-              text: "try it yourself",
+              text: "Try it yourself",
               linkto: user? "/dashboard/my-profile" : "/signup",
               active: true,
             }}
@@ -105,7 +105,7 @@ const Home = () => {
             heading={
               <div className="text-4xl font-semibold">
                 Unlock your
-                <HighlightText text={"coding potential"} />
+                <HighlightText text={" coding potential "} />
                 with our online courses.
               </div>
             }
@@ -113,7 +113,7 @@ const Home = () => {
                          who have years of experience in coding and are passionate 
                          about sharing their knowledge with you.`}
             ctaBtn1={{
-              text: "try it yourself",
+              text: "Try it yourself",
               linkto: user? "/dashboard/my-profile" : "/signup",
               active: true,
             }}
@@ -139,7 +139,7 @@ const Home = () => {
 
         <div className='homepageBg h-[310px] '>
               <div className='w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-5 mx-auto'>
-              <div className='h-[150px] bg-brown-900'>Hello delete my css only, keep my height only</div>
+              <div className='h-[150px]'></div>
               <div className='flex flex-row gap-7 text-white'>
                   <CTAButton active={true} linkto={user? "/dashboard/my-profile" : "/signup"} handleEvent={() => dispatch(setAccountType("Student"))}>
                         <div className='flex items-center gap-3'>
@@ -157,7 +157,7 @@ const Home = () => {
               
         </div>
 
-         <div className='mx-auto w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-7 bg-blue-25'>
+         <div className='mx-auto w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-7'>
               <div className='flex flex-row justify-between gap-5 mb-10 mt-[95px]'>
                 <div className='text-4xl font-semibold w-[45%]'>
                   Get the skills you need for a

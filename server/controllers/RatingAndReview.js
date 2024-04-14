@@ -8,13 +8,21 @@ exports.createRating = async(req, res) => {
     try{
         //get user Id
         const userId = req.user.id;
+        console.log("printing userId", userId)
         //fetchData from req body
         const {rating, review, courseId} = req.body;
+        console.log("printing data received from frontend",  rating, review, courseId)
         //check if user is enrolled or not
+        //course ki id se find out krop aur studentEnrolled match kro with following details
+        const testCourseDetails = await Course.findOne({_id:courseId})
+
+        console.log("printing testCourseDetails", testCourseDetails)
         const courseDetails = await Course.findOne(
-                                        {_id:courseId,//course ki id se find out krop aur studentEnrolled match kro with following details
+                                        {_id:courseId,
                                         studentsEnrolled: {$elemMatch :{$eq: userId}},
                                     });
+        
+        console.log("printing courseDetails", courseDetails)                            
 
         if(!courseDetails) {
             return res.status(404).json({

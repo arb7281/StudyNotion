@@ -16,6 +16,7 @@ const {CREATE_COURSE_API,
     DELETE_COURSE_API,
     COURSE_DETAILS_API,
     INSTRUCTOR_COURSES_API,
+    GET_FULL_COURSE_DETAILS_AUTHENTICATED,
     LECTURE_COMPLETION_API,
     CREATE_RATING_API} = courseEndpoints
 
@@ -329,6 +330,38 @@ export const deleteCourse = async (data,token) => {
 
     toast.dismiss(toastId)
 }
+
+//get full course details
+export const getFullDetailsOfCourse = async (courseId, token) => {
+    const toastId = toast.loading("Loading...")
+    //   dispatch(setLoading(true));
+    let result = null
+    try {
+      const response = await apiConnector(
+        "POST",
+        GET_FULL_COURSE_DETAILS_AUTHENTICATED,
+        {
+          courseId,
+        },
+        {
+          Authorization: `Bearer ${token}`,
+        }
+      )
+      console.log("COURSE_FULL_DETAILS_API API RESPONSE............", response)
+  
+      if (!response.data.success) {
+        throw new Error(response.data.message)
+      }
+      result = response?.data?.data
+    } catch (error) {
+      console.log("COURSE_FULL_DETAILS_API API ERROR............", error)
+      result = error.response.data
+      // toast.error(error.response.data.message);
+    }
+    toast.dismiss(toastId)
+    //   dispatch(setLoading(false));
+    return result
+  }
 
 // mark a lecture as complete
 export const markLectureAsComplete = async (data, token) => {
