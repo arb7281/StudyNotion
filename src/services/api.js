@@ -48,5 +48,7 @@ export const courseEndpoints = {
     UPDATE_SUB_SECTION_API: BASE_URL + "/course/updateSubSection",
     INSTRUCTOR_COURSES_API: BASE_URL + "/course/getInstructorCourses",
     DELETE_COURSE_API: BASE_URL + "/course/deleteCourse",
-    COURSE_DETAILS_API: BASE_URL + "/course/getCourseDetails"
+    COURSE_DETAILS_API: BASE_URL + "/course/getCourseDetails",
+    LECTURE_COMPLETION_API: BASE_URL + "/course/updateCourseProgress",
+    CREATE_RATING_API: BASE_URL + "/course/createRating",
 }
