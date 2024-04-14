@@ -254,7 +254,7 @@ exports.getAllCourses = async (req, res) => {
 }
 
 
-//get allCourses details 
+//get allCourses details when instructor wants to edit
 exports.getCoursedetails = async (req, res) => {
     try {
         //get id
@@ -386,6 +386,7 @@ if(courseSections !== undefined){
   }
 };
 
+//this is for course purchased by students
 exports.getFullCourseDetails = async (req, res) => {
     try {
       const { courseId } = req.body
