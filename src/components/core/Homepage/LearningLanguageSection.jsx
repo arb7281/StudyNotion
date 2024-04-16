@@ -38,7 +38,7 @@ const LearningLanguageSection = ({handleEvent}) => {
                 className='object-contain -ml-32'
             />
         </div>
-        <div className='w-fit'>
+        <div className='w-fit mb-10'>
             <CTAButton active={true} linkto={user? "/dashboard/my-profile" : "/signup"} handleEvent={handleEvent}>
                 <div>
                     Learn More

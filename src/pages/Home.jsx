@@ -11,6 +11,8 @@ import InstructorSection from '../components/core/Homepage/InstructorSection';
 import { useDispatch, useSelector } from 'react-redux';
 import { ACCOUNT_TYPE } from '../utils/constants';
 import { setAccountType } from '../slices/authSlice';
+import ExploreMore from '../components/core/Homepage/ExploreMore';
+import Footer from '../components/common/Footer';
 
 console.log(Banner);
 
@@ -132,6 +134,8 @@ const Home = () => {
             handleEvent={() => dispatch(setAccountType("Student"))}          
           />
         </div>
+
+        <ExploreMore/>
       </div>
 
       {/* This is section 2 */}
@@ -158,7 +162,7 @@ const Home = () => {
         </div>
 
          <div className='mx-auto w-11/12 max-w-maxContent flex flex-col items-center justify-between gap-7'>
-              <div className='flex flex-row justify-between gap-5 mb-10 mt-[95px]'>
+              <div className='flex flex-row justify-between gap-5 mb-10 '>
                 <div className='text-4xl font-semibold w-[45%]'>
                   Get the skills you need for a
                   <HighlightText text={" Job that is in demand"}/>
@@ -181,6 +185,7 @@ const Home = () => {
 
               <LearningLanguageSection handleEvent={() => dispatch(setAccountType("Student"))}/>
           </div>
+        
       </div>
 
 
@@ -189,6 +194,8 @@ const Home = () => {
         <InstructorSection/>
         <h2 className='text-center text-4xl font-semibold mt-10'>Review From Other Learners</h2>
       </div>
+
+      <Footer/>
     </div>
   );
 }

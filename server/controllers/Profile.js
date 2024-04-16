@@ -186,7 +186,7 @@ exports.updateDisplayPicture = async (req, res) => {
 exports.getEnrolledCourses = async (req, res) => {
     try {
         const userId = req.user.id;
-        const userDetails = await User.findOne({
+        let userDetails = await User.findOne({
             _id: userId,
         }).populate({
             path: "courses",
@@ -199,7 +199,7 @@ exports.getEnrolledCourses = async (req, res) => {
           }).exec()//jab user id se uska data nikaloge to usme se courses ki id milengi unko populate krdo
 
         // userDetails = userDetails.toObject();
-        // userDetails = userDetails.toObject()
+        userDetails = userDetails.toObject()
         var SubsectionLength = 0
         for (var i = 0; i < userDetails.courses.length; i++) {
         let totalDurationInSeconds = 0
@@ -223,7 +223,8 @@ exports.getEnrolledCourses = async (req, res) => {
         } else {
             // To make it up to 2 decimal point
             const multiplier = Math.pow(10, 2)
-            userDetails.courses[i].progressPercentage = Math.round(
+            userDetails.courses[i].progressPercentage = 
+                        Math.round(
                             (courseProgressCount / SubsectionLength) * 100 * multiplier
                         ) / multiplier
             

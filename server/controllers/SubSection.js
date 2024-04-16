@@ -25,7 +25,7 @@ exports.createSubSection = async (req, res) => {
         //create a sub-section
         const subSectionDetails = await SubSection.create({
             title:title,
-            
+            timeDuration: `${uploadDetails.duration}`,
             description:description,
             videoUrl:uploadDetails.secure_url,
         })
@@ -72,6 +72,7 @@ exports.updateSubSection = async (req, res) => {
         if(videoFile !== undefined){
             uploadDetails = await uploadimageToCloudinary(videoFile, process.env.FOLDER_NAME)
             updated.videoUrl = uploadDetails.secure_url
+            updated.timeDuration = `${uploadDetails.duration}`
         }
 
         // if(!subSectionId || !title || !description) {
