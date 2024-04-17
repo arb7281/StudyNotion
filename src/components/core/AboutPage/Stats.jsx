@@ -13,16 +13,16 @@ const Stats = () => {
 
 
   return (
-    <div className='flex'>
+    <div className="grid grid-cols-2 md:grid-cols-4 text-center">
                 {
                     StatsData.map((data, index) => (
-                        <div key={index}>
-                            <header>
+                        <div className="flex flex-col py-10" key={index}>
+                            <h1 className="text-[30px] font-bold text-richblack-5">
                                 {data.count}
-                            </header>
-                            <p>
+                            </h1>
+                            <h2 className="font-semibold text-[16px] text-richblack-500">
                                 {data.label}
-                            </p>
+                            </h2>
                         </div>
                     ))
                 }              
