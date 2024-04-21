@@ -21,7 +21,7 @@ const LearningLanguageSection = ({handleEvent}) => {
         </div>
         
 
-        <div className='flex items-center justify-center'>
+        <div className='flex flex-col lg:flex-row items-center mt-8 justify-center lg:mt-0'>
             <img
                 src={Know_your_progress}
                 alt='Know your progress image'

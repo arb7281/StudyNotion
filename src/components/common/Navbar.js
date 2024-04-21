@@ -57,7 +57,7 @@ function Navbar(props) {
           <img src={logo} alt="logo" width={160} height={32} loading="lazy" />
         </Link>
 
-        <nav className="text-richblack-25 flex gap-3">
+        <nav className="text-richblack-25  gap-3 hidden md:block">
           <ul className="flex gap-3">
             {/* unordered list is mandatory to wrap lists */}
             {NavbarLinks.map((link, index) => (
@@ -148,3 +148,5 @@ function Navbar(props) {
 }
 
 export default Navbar
+
+

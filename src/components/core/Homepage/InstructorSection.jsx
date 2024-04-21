@@ -14,8 +14,8 @@ const InstructorSection = () => {
 
   return (
     <div className='mb-16'>
-      <div className='flex gap-20 items-center'>
-        <div className='w-[50%]'>
+      <div className="flex flex-col lg:flex-row gap-20 items-center">
+        <div className="lg:w-[50%]">
           <img 
             src={Instructor}
             alt='Instructor Image'
