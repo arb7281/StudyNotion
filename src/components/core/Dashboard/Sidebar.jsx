@@ -22,8 +22,8 @@ const Sidebar = () => {
     }
 
   return (
-    <div className='text-white'>
-        <div className='flex flex-col min-w-[222px] border-r-[1px] border-r-richblack-700 h-[calc[100vh-3.5rem)] bg-richblack-800 py-10'>
+    <div className="flex h-[calc(100vh-3.5rem)] min-w-[220px] flex-col border-r-[1px] border-r-richblack-700 bg-richblack-800 py-10">
+        <div>
             <div className='flex flex-col'>
                 {
                     sidebarLinks.map((link) => {
@@ -44,8 +44,11 @@ const Sidebar = () => {
                         iconName="VscSettingsGear"/> for rendering settings button   */}
                     
             <SidebarLink link={{name:"Settings", path:"/dashboard/settings"}}
-                        icon="VscSettingsGear"/>            
-            <LogOut/>                
+                        icon="VscSettingsGear"/>     
+            <div className="px-8 py-2 text-sm font-medium text-richblack-300">
+            <LogOut/>  
+            </div>                   
+                          
           </div>
         </div>
     

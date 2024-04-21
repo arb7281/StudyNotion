@@ -1,5 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
+import { MdClose } from 'react-icons/md';
 import { useSelector } from 'react-redux';
 
 const TagsField = ({name, label, register, setValue, getValues, errors}) => {
@@ -46,18 +47,22 @@ const TagsField = ({name, label, register, setValue, getValues, errors}) => {
   }
 
   return (
-    <div>
-      <div>
+    <div className="flex flex-col space-y-2">
+      <label className="text-sm text-richblack-5" htmlFor={name}>
+        {label} <sup className="text-pink-200">*</sup>
+      </label>
+      <div className="flex w-full flex-wrap gap-y-2">
         {
           tags.map((tag, index) => (
-            <span key={index}>
+            <span className="m-1 flex items-center rounded-full bg-yellow-400 px-2 py-1 text-sm text-richblack-5" key={index}>
               {tag}
-              <button onClick={() => removeTag(tag)}>Remove</button>
+              <button className="ml-2 focus:outline-none" onClick={() => removeTag(tag)}><MdClose className="text-sm"/></button>
+              
             </span>
           ))
         }
       </div>
-      <label htmlFor={name}>{label}<sup>*</sup></label>
+      {/* <label htmlFor={name}>{label}<sup>*</sup></label> */}
       <input
         type='text'
         id={name}
@@ -65,9 +70,10 @@ const TagsField = ({name, label, register, setValue, getValues, errors}) => {
         onChange={handleInputChange}
         onKeyDown={handleInputkeyDown}
         placeholder='Type tags here...'
+        className="form-style w-full"
       />
       {errors[name] && tags.length === 0 && (
-            <span>
+            <span className="ml-2 text-xs tracking-wide text-pink-200">
                 {label} is required**
             </span>
         )}

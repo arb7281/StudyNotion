@@ -47,22 +47,26 @@ const RequirementField = ({name, label, register, setValue, getValues, errors}) 
 
 
   return (
-    <div>
-    <label htmlFor={name}>{label}<sup>*</sup></label>
-      <input type="text" value={inputText} onChange={handleInputChange} id={name}
-      />
-      <button type="button" onClick={handleAddRequirement}>+ add</button>
+    <div className="flex flex-col space-y-2">
+    <label className="text-sm text-richblack-5" htmlFor={name}>{label}<sup className="text-pink-200">*</sup></label>
+      <div className="flex flex-col items-start space-y-2">
+        <input type="text" value={inputText} onChange={handleInputChange} id={name}
+        className="form-style w-full"
+        />
+        <button type="button" onClick={handleAddRequirement} className="font-semibold text-yellow-50">+ add</button>
+      </div>
+      
 
       
 
 
       {requirement.length > 0 && (
-        <ul>
+        <ul className="mt-2 list-inside list-disc">
           {requirement.map((item, index) => 
           (
-            <li key={index}>
-              {item}
-              <button type="button" onClick={() => handleRemoveRequirement(index)}>Remove</button>
+            <li key={index} className="flex items-center text-richblack-5">
+              <span>{item}</span>
+              <button className="ml-2 text-xs text-pure-greys-300 " type="button" onClick={() => handleRemoveRequirement(index)}>Remove</button>
             </li>
           )
             
@@ -71,7 +75,7 @@ const RequirementField = ({name, label, register, setValue, getValues, errors}) 
       )}
 
       {errors[name] && requirement.length === 0 && (
-            <span>
+            <span className="ml-2 text-xs tracking-wide text-pink-200">
                 {label} is required**
             </span>
       )}
