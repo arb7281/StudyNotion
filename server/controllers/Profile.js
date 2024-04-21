@@ -10,36 +10,41 @@ exports.updateProfile = async (req, res) => {
     try {
         // getting data from req
         console.log("I am inside updateProfile")
-        const {firstName, lastName, dateOfBirth="", about="", contactNumber="", gender="Don't want to disclose"} = req.body;
+        // const {firstName, lastName, dateOfBirth="", about="", contactNumber="", gender="Don't want to disclose"} = req.body;
+
+        const {...updateFields} = req.body
         //get userId
         const id = req.user.id;
-        console.log("printing formData from req.body", req.body)
+        // console.log("printing formData from req.body", req.body)
         //validation
-        if(!contactNumber || !gender || !id) {
-            return res.status(400).json({
-                success:false,
-                message:"All fields are requireed"
-            })
-        }
+        // if(!updateFields.contactNumber || !updateFields.gender || id) {
+        //     return res.status(400).json({
+        //         success:false,
+        //         message:"All fields are requireed"
+        //     })
+        // }
         //find profileId and details
         const userDetails = await User.findById(id);
         const profileId = userDetails.additionalDetails;//here additionalDetails would be only id becoz we haven't populated it yet
-        const profileDetails = await Profile.findById(profileId);
+        const profileDetails = await Profile.findByIdAndUpdate(profileId, {...updateFields}, {new: true});
+        console.log("printing profileDetails", profileDetails)
 
         //update profile
-        profileDetails.dateOfBirth = dateOfBirth;
-        profileDetails.about = about;
-        profileDetails.gender = gender;
-        profileDetails.contactNumber = contactNumber;
+        // profileDetails.dateOfBirth = dateOfBirth;
+        // profileDetails.about = about;
+        // profileDetails.gender = gender;
+        // profileDetails.contactNumber = contactNumber;
 
         //save the updated profile
-        await profileDetails.save();
+        // await profileDetails.save();
 
         const updatedUserDetails = await User.findById(id).populate('additionalDetails').exec();
 
-        if(firstName || lastName){
-            updatedUserDetails.firstName = firstName
-            updatedUserDetails.lastName = lastName
+        console.log("printing updatedUserDetails", updatedUserDetails)
+
+        if(updateFields?.firstName || updateFields?.lastName){
+            updatedUserDetails.firstName = updateFields?.firstName
+            updatedUserDetails.lastName = updateFields?.lastName
             updatedUserDetails.image=`https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`
             await updatedUserDetails.save()
             console.log("printing userDetails", updatedUserDetails)
@@ -52,6 +57,7 @@ exports.updateProfile = async (req, res) => {
             updatedUserDetails
         })
     }catch(error){
+        console.log("printing error", error)
         return res.status(500).json({
             success:false,
             error:error.message

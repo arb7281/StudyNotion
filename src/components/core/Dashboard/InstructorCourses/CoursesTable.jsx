@@ -134,10 +134,11 @@ const CoursesTable = ({courses, setCourses, selectedIds, setSelectedIds}) => {
                   <button
                     disabled={loading}
                     onClick={() => {
-                      console.log("printing course in edit", course);
-                      dispatch(setStep(1));
-                      dispatch(setEditCourse(true));
+                      console.log("printing courses in edit", courses);
+                      // dispatch(setStep(1));
                       dispatch(setCourse(course));
+                      dispatch(setEditCourse(true));
+                      
                       navigate(`/dashboard/edit-course/${course._id}`);
                     }}
                     title="Edit"

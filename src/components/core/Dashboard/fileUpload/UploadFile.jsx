@@ -20,8 +20,9 @@ const FileUpload = () => {
 
   return (
     <div>
-        <input type='file' onChange={handleFileChange}/>
-        <CTAButton active={true} handleEvent={handleUpload}>Upload</CTAButton>
+        <input type='file' onChange={handleFileChange} className="hidden" accept="image/png, image/gif, image/jpeg"/>
+        <CTAButton active={true} handleEvent={handleUpload} 
+        >Upload</CTAButton>
         {/* <button onClick={handleUpload}>Upload</button> */}
     </div>
   )

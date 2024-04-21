@@ -8,6 +8,7 @@ import CoursesTable from './InstructorCourses/CoursesTable'
 import { FiDelete } from 'react-icons/fi'
 import ConfirmationModal from './instructorDashboard/CourseBuilder/ConfirmationModal'
 import {RiDeleteBin6Line} from 'react-icons/ri'
+import toast from 'react-hot-toast'
 // import { fetchInstructorCourses } from '../../../services/operations/courseDetailsAPI'
 
 
@@ -58,8 +59,8 @@ const MyCourses = () => {
 
   return (
     <div>
-      <div>
-        <h1>
+      <div className="mb-14 flex items-center justify-between">
+        <h1 className="text-3xl font-medium text-richblack-5">
           My Courses
         </h1>
         <CTAButton
@@ -67,8 +68,10 @@ const MyCourses = () => {
           active={true}
           
         >
+          Add Course
           <VscAdd/>
         </CTAButton>
+        </div>
         <button
                     disabled={loading}
                     onClick={() => {
@@ -86,15 +89,17 @@ const MyCourses = () => {
                             ? () => setConfirmationModal(null)
                             : () => {},
                         });
+                      }else{
+                        toast.error("please select the course(s) to delete")
                       }
                     }}
                     title="Delete"
-                    className="px-1 flex items-center gap-2 transition-all duration-200 hover:scale-110 hover:text-[#ff0000]"
+                    className="text-white py-1 px-1 flex items-center gap-2 transition-all duration-200 hover:scale-110 hover:text-[#ff0000]"
                   >
                     Delete Selected Courses
                     <RiDeleteBin6Line size={20} />
           </button>
-      </div>
+      
       {courses && <CoursesTable courses={courses} setCourses={setCourses} selectedIds={selectedIds} setSelectedIds={setSelectedIds}/>}
       {confirmationModal &&  selectedIds.length > 0 &&(
         <ConfirmationModal

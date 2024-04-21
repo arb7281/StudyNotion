@@ -13,7 +13,7 @@ const InstructorSection = () => {
 
 
   return (
-    <div>
+    <div className='mb-16'>
       <div className='flex gap-20 items-center'>
         <div className='w-[50%]'>
           <img 

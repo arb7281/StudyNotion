@@ -128,19 +128,21 @@ const onSubmit = async (data) => {
 
 
   return (
-    <div>
-      <div>
-        <div>
-          <p>
+    <div className="fixed inset-0 z-[1000] !mt-0 grid h-screen w-screen place-items-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm">
+      <div className="my-10 w-11/12 max-w-[700px] rounded-lg border border-richblack-400 bg-richblack-800">
+        <div className="flex items-center justify-between rounded-t-lg bg-richblack-700 p-5">
+          <p className="text-xl font-semibold text-richblack-5">
             {view && "Viewing"}
             {add && "Adding"}
             {edit && "Editing"}
           </p>
           <button onClick={() => (!loading ? setModalData(null): {})}>
-            <RxCross1/>
+            <RxCross1 className="text-2xl text-richblack-5"/>
           </button>
         </div>
-        <form>
+        <form
+        className="space-y-8 px-8 py-10"
+        >
             <Upload
                 name="lectureVideo"
                 lebel="Lecture Video"
@@ -152,36 +154,36 @@ const onSubmit = async (data) => {
                 viewData={view ? modalData.videoUrl : null}
                 editData={edit ? modalData.videoUrl : null}
             />
-            <div>
-                <label htmlFor='lectureTitle'>Lecture Title</label>
+            <div className="flex flex-col space-y-2">
+                <label className="text-sm text-richblack-5" htmlFor='lectureTitle'>Lecture Title</label>
                 <input
                     id='lectureTitle'
                     type='text'
                     placeholder='Enter Lecture Title'
                     {...register("lectureTitle", {required: true})}
-                    className='w-full text-black'
+                    className="form-style w-full"
                     disabled={view}
                 />
                 {
                     errors.lectureTitle && (
-                        <span>
+                        <span className="ml-2 text-xs tracking-wide text-pink-200">
                             Lecture Title is required
                         </span>
                     )
                 }
             </div>
-            <div>
-                <label htmlFor='lectureDesc'>Lecture description</label>
+            <div className="flex flex-col space-y-2">
+                <label className="text-sm text-richblack-5" htmlFor='lectureDesc'>Lecture description</label>
                 <textarea
                     id='lectureDesc'
                     placeholder='Enter Lecture Description'
                     {...register("lectureDesc", {required: true})}
-                    className='w-full min-h-[130px] text-black'
+                    className="form-style resize-x-none min-h-[130px] w-full"
                     disabled={view}
                 />
                 {
                     errors.lectureDesc && (
-                        <span>
+                        <span className="ml-2 text-xs tracking-wide text-pink-200">
                             Lecture Description is required
                         </span>
                     )
@@ -189,8 +191,9 @@ const onSubmit = async (data) => {
             </div>
             {
               !view && (
-                <div>
+                <div className="flex justify-end">
                    <CTAButton
+                   active={true}
                    handleEvent={handleSubmit(onSubmit)}
                    >{loading ? "Loading..." : edit ? "Save Changes" : "Save"}</CTAButton>
                 </div>)  

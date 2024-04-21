@@ -105,27 +105,27 @@ const CourseBuilderForm = () => {
 
 
   return (
-    <div className='text-white'>
-      <p>Course Builder</p>
+    <div className="space-y-8 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-6">
+      <p className="text-2xl font-semibold text-richblack-5">Course Builder</p>
       {/* need to complete onSubmit */}
-      <form>
-        <div>
-          <label htmlFor='sectionName'>
+      <form className="space-y-4">
+        <div className="flex flex-col space-y-2">
+          <label className="text-sm text-richblack-5" htmlFor='sectionName'>
             Section Name <sup>*</sup>
           </label>
           <input
             id='sectionName'
             placeholder='Add section name'
             {...register("sectionName", {required:true})}
-            className='w-full text-black'
+            className="form-style w-full"
           />
           {
             errors.sectionName && (
-              <span>Section name is required</span>
+              <span className="ml-2 text-xs tracking-wide text-pink-200">Section name is required</span>
             )
           }
         </div>
-        <div className='mt-10 flex w-full'>
+        <div className="flex items-end gap-x-4">
           <CTAButton
           type="Submit"
           handleEvent={handleSubmit(onSubmit)}
@@ -151,7 +151,7 @@ const CourseBuilderForm = () => {
         )
       }
 
-      <div className='flex justify-end gap-x-3 mt-10'>
+      <div className="flex justify-end gap-x-3">
       <CTAButton 
         handleEvent={goBack}
         active={false}

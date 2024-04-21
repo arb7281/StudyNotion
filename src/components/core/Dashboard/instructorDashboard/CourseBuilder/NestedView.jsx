@@ -86,35 +86,35 @@ const NestedView = ({handleChangeEditSectionName}) => {
                                 } 
                                 >
                                 {/* that delete icon */}
-                                    <RiDeleteBin6Line/>
+                                    <RiDeleteBin6Line className="text-xl text-richblack-300"/>
                                 </button>
-                                <span>|</span>
+                                <span className="font-medium text-richblack-300">|</span>
                                 <BiDownArrow className={`text-xl text-richblack-300`}/>
                             </div>
                         </summary>
 
                                 {/* this div is holding subsection content it will be revealed only if the summary is clicked */}
-                        <div>
+                        <div className="px-6 pb-4">
                             {
                                 section?.subSection?.map((data) => (
                                     <div
                                     key={data?._id}
                                     
-                                    className='flex item-center justify-between gap-x-3 border-b-2'
+                                    className="flex cursor-pointer items-center justify-between gap-x-3 border-b-2 border-b-richblack-600 py-2"
                                     >
                                         <div 
                                         onClick={() => setViewSubSection(data)}
                                         className='flex items-center gap-x-3 cursor-pointer'>
                                         {/* menu icon */}
                                             <RxDropdownMenu/>
-                                            <p>{data.title}</p>
+                                            <p className="font-semibold text-richblack-50">{data.title}</p>
                                         </div>
                                         <div className='flex items-center gap-x-3'>
                                             <button
                                             onClick={(e) => setEditSubSection({...data, sectionId:section._id})}
                                             >
                                             {/* edit icon */}
-                                                <MdEdit/>
+                                                <MdEdit className="text-xl text-richblack-300"/>
                                             </button>
 
                                             {/* on clickin on this button confirmation modal will open */}
@@ -130,7 +130,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
                                             >
 
                                             {/* delete button */}
-                                                <RiDeleteBin6Line/>
+                                                <RiDeleteBin6Line className="text-xl text-richblack-300"/>
                                             </button>
                                         </div>
                                     </div>
@@ -141,7 +141,7 @@ const NestedView = ({handleChangeEditSectionName}) => {
                             className='mt-4 flex items-center gap-x-2 text-yellow-50'
                             >
                            {/*  add icon */}
-                                <AiOutlinePlus/>
+                                <AiOutlinePlus className="text-lg"/>
                                 <p>Add Lecture</p>
                             </button>
                         </div>

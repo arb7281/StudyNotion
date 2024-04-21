@@ -192,7 +192,7 @@ const Home = () => {
       {/* This is section 3 */}
       <div className='mt-16 flex flex-col items-center w-11/12 mx-auto max-w-maxContent justify-between gap-8 first-letter bg-richblack-900 text-white '>
         <InstructorSection/>
-        <h2 className='text-center text-4xl font-semibold mt-10'>Review From Other Learners</h2>
+        {/* <h2 className='text-center text-4xl font-semibold mt-10'>Review From Other Learners</h2> */}
       </div>
 
       <Footer/>

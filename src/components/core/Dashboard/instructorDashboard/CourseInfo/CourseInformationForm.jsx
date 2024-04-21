@@ -232,7 +232,13 @@ const CourseInformationForm = () => {
         </div>
         <div className="flex flex-col space-y-2">
             <label className="text-sm text-richblack-5" htmlFor='courseShortDesc'>Course Short Description<sup className="text-pink-200">*</sup></label>
-            <input
+            {/* <input
+                id='courseShortdesc'
+                placeholder='Enter description'
+                {...register("courseShortDesc", {required: true})}
+                className="form-style resize-x-none min-h-[130px] w-full"
+            /> */}
+            <textarea
                 id='courseShortdesc'
                 placeholder='Enter description'
                 {...register("courseShortDesc", {required: true})}

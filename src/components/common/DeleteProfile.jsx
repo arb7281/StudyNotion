@@ -68,7 +68,7 @@ const DeleteProfile = () => {
       } 
 
   return (
-    <div onClick={()=> setModalIsOpen(true)} className='cursor-pointer'>
+    <div onClick={()=> setModalIsOpen(true)} className='cursor-pointer text-[#ff0000]'>
       
         <div className="flex items-center gap-1">
         <FaTrash className="text-lg"/>
@@ -89,6 +89,7 @@ const DeleteProfile = () => {
           placeholder="Enter your password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          className='form-style'
         />
           <div className="flex gap-2 items-center">
             <button style={buttonStyle} onClick={ (event) => modalClose(event)}>

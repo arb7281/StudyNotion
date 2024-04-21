@@ -5,7 +5,7 @@ import CTAButton from '../Homepage/CTAButton'
 const LearningGrid = () => {
   return (
 
-         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-2 mx-auto">
+         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mt-2 mx-auto mb-10">
           {/* <!-- First row --> */}
           <div class="col-span-1 md:col-span-2 lg:col-span-2  flex flex-col gap-3  pr-5 pb-5 h-[280px]">
              <div className='text-4xl font-semibold '>World-Class Learning for <br/>
