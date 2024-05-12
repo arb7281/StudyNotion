@@ -2,6 +2,7 @@
 
 ## Introduction
 Welcome to StudyNotion! StudyNotion is an online platform designed to facilitate the interaction between students and instructors, providing a seamless experience for learning and teaching.
+Build using MERN technologies!
 
 ## Key Functionalities
 
