@@ -28,7 +28,7 @@ Welcome to StudyNotion! StudyNotion is an online platform designed to facilitate
 ## Future Scope
 In the future, we aim to enhance StudyNotion by incorporating the following features:
 - **Instructor Dashboard Enhancements**: Provide instructors with insights into course performance, including the number of students enrolled and income generated.
-- **Homepage Aesthetics**: Add a small course review slider to the homepage to improve aesthetics and showcase course reviews.
+- **Homepage review Slider**: Add a small course review slider to the homepage to improve and showcase course reviews.
 
 ## Getting Started
 To get started with StudyNotion, follow these steps:
