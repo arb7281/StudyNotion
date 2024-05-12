@@ -157,9 +157,12 @@ const Settings = () => {
                 <label className="lable-style">
                   About
                 </label>
-                  <input type="text" name='about' value={forrmData.about} onChange={handleChange}
-                    className="form-style"
-                  />
+                <textarea 
+                  name='about' 
+                  value={forrmData.about} 
+                  onChange={handleChange} 
+                  className="form-style"
+                />
                 
               </div>
               

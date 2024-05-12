@@ -53,13 +53,13 @@ const VerifyEmail = () => {
 
 
   return (
-    <div className="text-white">
+    <div className="min-h-[calc(100vh-3.5rem)] grid place-items-center">
       {loading ? (
-        <div>Loading...</div>
+        <div className='loader'></div>
       ) : (
-        <div>
-          <h1> Verify Email</h1>
-          <p>A verification code has been sent to you. Enter the code below</p>
+        <div className="max-w-[500px] p-4 lg:p-8">
+          <h1 className="text-richblack-5 font-semibold text-[1.875rem] leading-[2.375rem]"> Verify Email</h1>
+          <p className="text-[1.125rem] leading-[1.625rem] my-4 text-richblack-100">A verification code has been sent to you. Enter the code below</p>
           
           <form onSubmit={handleSubmit} className="flex flex-col items-center">
             <OtpInput
@@ -78,12 +78,16 @@ const VerifyEmail = () => {
             </button>
           </form>
 
-          <div>
+          <div className="mt-6 flex items-center justify-between">
             <Link to="/login">
-              <p>back to login</p>
+              <p className="text-richblack-5 flex items-center gap-x-2">
+              
+              back to login</p>
             </Link>
           </div>
-          <button onClick={() => dispatch(sendOtp(signupData.email, navigate))}>
+          <button 
+          className="flex items-center text-blue-100 gap-x-2"
+          onClick={() => dispatch(sendOtp(signupData.email, navigate))}>
             Resend it
           </button>
         </div>

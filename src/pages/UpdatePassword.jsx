@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useDispatch } from 'react-redux';
-import { useLocation } from 'react-router-dom';
+import {  useLocation, useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { resetPassword } from '../services/operations/authAPI';
 
@@ -13,6 +13,7 @@ const UpdatePassword = () => {
     const [formData, setFormData] = useState({password:"", confirmPassword:""})
     const location = useLocation()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const clickHandler = () => {
         setShowPassword((prev) => !prev);
@@ -32,20 +33,23 @@ const UpdatePassword = () => {
         e.stopPropagation()
         const token = location.pathname.split('/').at(-1); /* url me se rightmost token hoga wo nikal lena */
         console.log("printing token", token)
-        dispatch(resetPassword(password, confirmPassword, token))
+        dispatch(resetPassword(password, confirmPassword, token)).then(()=> {
+          navigate("/login")
+        })
+        
     }
   return (
-    <div className='text-white'>
+    <div className="grid min-h-[calc(100vh-3.5rem)] place-items-center">
       {loading ? (
-        <div>Loading...</div>
+        <div className="spinner">Loading...</div>
       ) : (
-        <div >
-          <h1>Choose new password</h1>
-          <p>Almost done. Enter your new password and youre all set.</p>
+        <div className="max-w-[500px] p-4 lg:p-8">
+          <h1 className="text-[1.875rem] font-semibold leading-[2.375rem] text-richblack-5">Choose new password</h1>
+          <p className="my-4 text-[1.125rem] leading-[1.625rem] text-richblack-100">Almost done. Enter your new password and youre all set.</p>
 
           <form onSubmit={handleOnSubmit}>
-            <label>
-              <p>New Password*</p>
+            <label className="relative">
+              <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">New Password*</p>
               <input 
                     required 
                     type={showPassword ? "text" : "password"}
@@ -53,11 +57,11 @@ const UpdatePassword = () => {
                     onChange={handleOnChange}
                     value={password}
                     name='password'
-                    className='bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px] border-b border-white'
+                    className="form-style w-full !pr-10"
                     />
               <span
                 onClick={clickHandler}
-                className="absolute right-3 top-[38px] cursor-pointer"
+                className="absolute right-3 top-[38px] z-[10] cursor-pointer"
               >
                 {showPassword ? (
                   <FaEye fontSize={24} fill="#AFB2BF" />
@@ -68,8 +72,8 @@ const UpdatePassword = () => {
             </label>
 
 
-            <label className='relative'>
-              <p>Confirm new Password*</p>
+            <label className="relative mt-3 block">
+              <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">Confirm new Password*</p>
               <input 
                     required 
                     type={showConfirmPassword ? "text" : "password"}
@@ -77,11 +81,11 @@ const UpdatePassword = () => {
                     onChange={handleOnChange}
                     value={confirmPassword}
                     name='confirmPassword'
-                    className='bg-richblack-800 rounded-[0.5rem] text-richblack-5 w-full p-[12px] border-b border-white'
+                    className="form-style w-full !pr-10"
                     />
               <span
                 onClick={clickHandler2}
-                className="absolute right-3 top-[38px] cursor-pointer"
+                className="absolute right-3 top-[38px] z-[10] cursor-pointer"
               >
                 {showConfirmPassword ? (
                   <FaEye fontSize={24} fill="#AFB2BF" />
@@ -90,12 +94,13 @@ const UpdatePassword = () => {
                 )}
               </span>
             </label>
-            <button type='submit'>Reset Password</button>
+            <button type='submit'
+            className="mt-6 w-full rounded-[8px] bg-yellow-50 py-[12px] px-[12px] font-medium text-richblack-900">Reset Password</button>
           </form>
 
-          <div>
+          <div className="mt-6 flex items-center justify-between">
           <Link to="/login">
-            <p>back to login</p>
+            <p className="flex items-center gap-x-2 text-richblack-5">back to login</p>
           </Link>
             
           </div>

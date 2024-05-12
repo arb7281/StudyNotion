@@ -55,6 +55,8 @@ exports.resetPassword = async (req,res) => {
       const {password, confirmPassword, token} = req.body; //token front end ne useSearch params ki madad se body me bhej diya wo 
       //jo upr link apn ne create kri token bana kr uskeo open krkne ke bad apn ko reset password ke liye inputs dikhenge
       //validation
+
+      console.log("printing received details", password, confirmPassword, token)
       if(password !== confirmPassword){
           return res.json({
               success: false,
@@ -63,6 +65,7 @@ exports.resetPassword = async (req,res) => {
       }
       //get user details from db
       const userDetails = await User.findOne({token: token});
+      console.log("printing userDetails", userDetails)
   
       //if no entry - invalid token
       if(!userDetails){
@@ -80,6 +83,7 @@ exports.resetPassword = async (req,res) => {
       }
       //hash Password
       const hashedPassword = await bcrypt.hash(password, 10);
+      console.log("printing hashedPassword", hashedPassword)
   
       //password ko update kr do
       await User.findOneAndUpdate({token:token}, 

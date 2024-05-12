@@ -17,10 +17,14 @@ const ForgotPassword = () => {
         dispatch(getPasswordResetToken(email, setEmailSent)) /* this will set sentEmail as true and will work as connection between backend as we are sending email in it */
     }
 
+    function buttonText() {
+      return !emailSent ? "Reset Password" : "Resend Email";
+    }
+
   return (
     <div className='text-white flex justify-center items-center '>
       {loading ? (
-        <div>Loading...</div>
+        <div className='loader'></div>
       ) : (
         <div className='flex flex-col w-[700px] h-[448px] top-[288px] left-[466px] p-32 gap-6 '>
           <h1 className='text-[30px] font-semibold'>{!emailSent ? "Reset your password" : "Check your email"}</h1>{" "}
@@ -45,7 +49,19 @@ const ForgotPassword = () => {
                     />
               </label>
             )}
-            <button type='submit' className='bg-yellow-50 w-full rounded-[8px] font-medium text-richblack-900 px-[12px] py-[8px] mt-8'>{!emailSent ? "Reset Password" : "Resend Email"}</button>
+            {/* <button type='submit' className='bg-yellow-50 w-full rounded-[8px] font-medium text-richblack-900 px-[12px] py-[8px] mt-8'>
+            {!emailSent ? "Reset Password" : "Resend Email"}</button> */}
+            
+            <button type='submit' className='bg-yellow-50 w-full rounded-[8px] font-medium text-richblack-900 px-[12px] py-[8px] mt-8'>
+              {loading ? (
+                <div className="flex items-center justify-center">
+                  <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-gray-900"></div>
+                  <span className="ml-2">Loading...</span>
+                </div>
+              ) : (
+                buttonText()
+              )}
+            </button>
           </form>
           <div>
           <Link to="/login">

@@ -18,8 +18,10 @@ const {UPDATE_DISPLAY_PICTURE_API, UPDATE_PROFILE_API, GET_USER_DETAILS, DELETE_
 const {GET_COURSE_AVERAGE_RATING} = courseEndpoints
 
 export function getPasswordResetToken(email, setEmailSent) {
+   const toastId = toast.loading("Loading...")
     console.log("I am inside getPasswordResetToken")
 return async(dispatch) => {
+   // toast.loading(true)
      dispatch(setLoading(true));
      try{
         const response = await apiConnector("POST", RESETPASSTOKEN_API, {email,}) /* backend ki reset password controller me usko body se email hi chahiye  */
@@ -36,10 +38,12 @@ return async(dispatch) => {
         toast.error("Failed to send email while resetting password")
      }
      dispatch(setLoading(false));
+     toast.dismiss(toastId)
 }
 }
 
 export function resetPassword(password, confirmPassword, token) {
+   
 console.log("I am inside reset password")
     return async(dispatch) => {
         dispatch(setLoading(true));
@@ -55,9 +59,10 @@ console.log("I am inside reset password")
            
         }catch(error){
            console.log("Password reset error", error)
-           toast.error("Failed to reset your password")
+           toast.error(`${error}`)
         }
         dispatch(setLoading(false));
+        
    }
 }
 
@@ -206,6 +211,7 @@ export function uploadFile(displayPicture,user) {
 
 export function updateProfile(formData, token){
    return async(dispatch) => {
+      const toastId = toast.loading("Loading...")
       dispatch(setLoading(true));
       try{
          
@@ -231,6 +237,7 @@ export function updateProfile(formData, token){
          toast.error(`${error.mesage}`)
       }
       dispatch(setLoading(false));
+      toast.dismiss(toastId)
    }
 }
 
@@ -284,6 +291,7 @@ export function changePassword(passData, token, navigate) {
   
    
        return async(dispatch) => {
+         
          dispatch(setLoading(true));
          const toastId = toast.loading("Loading...")
            try{
