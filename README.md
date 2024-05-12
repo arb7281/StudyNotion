@@ -37,7 +37,5 @@ To get started with StudyNotion, follow these steps:
 3. Browse courses, add them to your cart, and make purchases as a student.
 4. Create courses, manage course details, and track performance as an instructor.
 
-## Feedback and Support
-We are constantly working to improve StudyNotion. If you have any feedback or require support, please contact us at [support@studynotion.com](mailto:support@studynotion.com).
-
-Thank you for choosing StudyNotion as your learning platform!
+-- To access the StudyNotion app
+https://studynotion-frontend-steel.vercel.app/
